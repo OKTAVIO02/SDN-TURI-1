@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -11,19 +11,28 @@ import './App.css'
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <main className="site-main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profil" element={<Profil />} />
-          <Route path="/akademik" element={<Akademik />} />
-          <Route path="/fasilitas" element={<Fasilitas />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </main>
-      <Footer />
+      <AppRoutes />
     </BrowserRouter>
   )
+}
+
+function AppRoutes() {
+  const { pathname } = useLocation()
+  const isAdminPage = pathname === '/admin'
+
+  return <>
+    {!isAdminPage && <Navbar />}
+    <main className={isAdminPage ? 'site-main admin-main' : 'site-main'}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profil" element={<Profil />} />
+        <Route path="/akademik" element={<Akademik />} />
+        <Route path="/fasilitas" element={<Fasilitas />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </main>
+    {!isAdminPage && <Footer />}
+  </>
 }
 
 export default App

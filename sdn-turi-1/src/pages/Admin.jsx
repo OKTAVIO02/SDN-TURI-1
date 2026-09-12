@@ -1,10 +1,34 @@
-import { useState } from 'react'
-import { achievements, extracurriculars, facilities, schoolInfo, teachers } from '../data/schoolData'
+import { useEffect, useState } from 'react'
+import { achievements, extracurriculars, schoolInfo, teachers } from '../data/schoolData'
 
 const menuItems = ['Ringkasan', 'Profil Sekolah', 'Guru & Staf', 'Akademik', 'Fasilitas']
+const facilitiesApiUrl = 'https://sdn1turi.my.id/api/facilities.php'
 
 function Admin() {
   const [activeMenu, setActiveMenu] = useState('Ringkasan')
+  const [facilities, setFacilities] = useState([])
+  const [isLoadingFacilities, setIsLoadingFacilities] = useState(true)
+  const [facilitiesError, setFacilitiesError] = useState('')
+
+  useEffect(() => {
+    async function loadFacilities() {
+      try {
+        const response = await fetch(facilitiesApiUrl)
+
+        if (!response.ok) {
+          throw new Error('Data fasilitas tidak dapat dimuat.')
+        }
+
+        setFacilities(await response.json())
+      } catch (requestError) {
+        setFacilitiesError(requestError.message)
+      } finally {
+        setIsLoadingFacilities(false)
+      }
+    }
+
+    loadFacilities()
+  }, [])
 
   return (
     <section className="admin-shell">
@@ -18,8 +42,9 @@ function Admin() {
       <div className="admin-content">
         <header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Selamat datang, Admin</h1><p>Kelola informasi sekolah dari satu tempat.</p></div><button className="admin-action" type="button">+ Tambah konten</button></header>
         <div className="admin-breadcrumb">Dashboard <span>/</span> {activeMenu}</div>
-        <div className="admin-stats"><StatCard label="Guru & Staf" value={teachers.length} note="data terdaftar" /><StatCard label="Ekstrakurikuler" value={extracurriculars.length} note="kegiatan aktif" /><StatCard label="Prestasi" value={achievements.length} note="pencapaian tercatat" /><StatCard label="Fasilitas" value={facilities.length} note="ruang tersedia" /></div>
-        <div className="admin-grid"><section className="admin-panel"><div className="panel-heading"><div><h2>Informasi sekolah</h2><p>Data utama yang tampil di website publik.</p></div><button className="text-action" type="button">Edit data</button></div><div className="school-detail-grid"><Detail label="Nama sekolah" value={schoolInfo.name} /><Detail label="NPSN" value={schoolInfo.npsn} /><Detail label="Telepon" value={schoolInfo.phone} /><Detail label="Email" value={schoolInfo.email} /></div><div className="address-detail"><span>Alamat</span><strong>{schoolInfo.address}</strong></div></section><section className="admin-panel activity-panel"><div className="panel-heading"><div><h2>Aktivitas terbaru</h2><p>Pembaruan konten terakhir.</p></div></div><Activity title="Data fasilitas" time="Baru saja" /><Activity title="Daftar prestasi" time="Kemarin" /><Activity title="Profil sekolah" time="3 hari lalu" /></section></div>
+        <div className="admin-stats"><StatCard label="Guru & Staf" value={teachers.length} note="data terdaftar" /><StatCard label="Ekstrakurikuler" value={extracurriculars.length} note="kegiatan aktif" /><StatCard label="Prestasi" value={achievements.length} note="pencapaian tercatat" /><StatCard label="Fasilitas" value={facilities.length} note="dari database" /></div>
+        <div className="admin-grid"><section className="admin-panel"><div className="panel-heading"><div><h2>Informasi sekolah</h2><p>Data utama yang tampil di website publik.</p></div><button className="text-action" type="button">Edit data</button></div><div className="school-detail-grid"><Detail label="Nama sekolah" value={schoolInfo.name} /><Detail label="NPSN" value={schoolInfo.npsn} /><Detail label="Telepon" value={schoolInfo.phone} /><Detail label="Email" value={schoolInfo.email} /></div><div className="address-detail"><span>Alamat</span><strong>{schoolInfo.address}</strong></div></section><section className="admin-panel activity-panel"><div className="panel-heading"><div><h2>Aktivitas terbaru</h2><p>Pembaruan konten terakhir.</p></div></div><Activity title="Data fasilitas" time="Terhubung ke database" /><Activity title="Daftar prestasi" time="Data lokal" /><Activity title="Profil sekolah" time="Data lokal" /></section></div>
+        <section className="admin-panel admin-facilities-panel"><div className="panel-heading"><div><h2>Fasilitas dari database</h2><p>Data berikut dibaca langsung dari MySQL melalui API.</p></div><button className="admin-action" type="button" disabled>+ Tambah fasilitas</button></div>{isLoadingFacilities && <p className="admin-status">Memuat data fasilitas...</p>}{facilitiesError && <p className="admin-status error">{facilitiesError}</p>}{!isLoadingFacilities && !facilitiesError && <div className="admin-facility-list">{facilities.map((facility) => <div className="admin-facility-row" key={facility.id}><div><strong>{facility.name}</strong><p>{facility.description}</p></div><span className="admin-badge">Database</span></div>)}</div>}</section>
       </div>
     </section>
   )

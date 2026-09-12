@@ -5,7 +5,6 @@ const links = [
   { to: '/profil', label: 'Profil' },
   { to: '/akademik', label: 'Akademik' },
   { to: '/fasilitas', label: 'Fasilitas' },
-  { to: '/admin', label: 'Admin' },
 ]
 
 function Navbar() {
