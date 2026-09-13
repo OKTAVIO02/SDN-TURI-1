@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+public/api/config.php
+*.zip
 
 # Editor directories and files
 .vscode/*

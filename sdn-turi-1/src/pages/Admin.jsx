@@ -1,65 +1,149 @@
-import { useEffect, useState } from 'react'
-import { achievements, extracurriculars, schoolInfo, teachers } from '../data/schoolData'
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { schoolInfo } from '../data/schoolData'
 
-const menuItems = ['Ringkasan', 'Profil Sekolah', 'Guru & Staf', 'Akademik', 'Fasilitas']
-const facilitiesApiUrl = 'https://sdn1turi.my.id/api/facilities.php'
+const apiBaseUrl = 'https://sdn1turi.my.id/api'
+const sections = [
+  { key: 'profile', label: 'Profil Sekolah', endpoint: 'school-profile.php' },
+  { key: 'teachers', label: 'Guru & Staf', endpoint: 'teachers.php' },
+  { key: 'extracurriculars', label: 'Ekstrakurikuler', endpoint: 'extracurriculars.php' },
+  { key: 'achievements', label: 'Prestasi', endpoint: 'achievements.php' },
+  { key: 'facilities', label: 'Fasilitas', endpoint: 'facilities.php' },
+]
+
+const resourceFields = {
+  teachers: [{ key: 'name', label: 'Nama lengkap' }, { key: 'role', label: 'Jabatan' }, { key: 'subject', label: 'Bidang atau mata pelajaran' }],
+  extracurriculars: [{ key: 'name', label: 'Nama kegiatan' }, { key: 'description', label: 'Deskripsi' }],
+  achievements: [{ key: 'title', label: 'Nama prestasi' }, { key: 'year', label: 'Tahun', type: 'number' }, { key: 'level', label: 'Tingkat' }],
+  facilities: [{ key: 'name', label: 'Nama fasilitas' }, { key: 'description', label: 'Deskripsi' }, { key: 'condition_label', label: 'Kondisi fisik' }, { key: 'is_featured', label: 'Fasilitas unggulan (ketik 1 atau 0)', type: 'number' }],
+}
+
+async function readApiResponse(response, fallbackMessage) {
+  const body = await response.text()
+  let result = {}
+
+  if (body) {
+    try {
+      result = JSON.parse(body)
+    } catch {
+      result = {}
+    }
+  }
+
+  if (!response.ok) {
+    throw new Error(result.error || `${fallbackMessage} (HTTP ${response.status})`)
+  }
+
+  return result
+}
 
 function Admin() {
-  const [activeMenu, setActiveMenu] = useState('Ringkasan')
-  const [facilities, setFacilities] = useState([])
-  const [isLoadingFacilities, setIsLoadingFacilities] = useState(true)
-  const [facilitiesError, setFacilitiesError] = useState('')
+  const navigate = useNavigate()
+  const [activeKey, setActiveKey] = useState('profile')
+  const [data, setData] = useState({ teachers: [], extracurriculars: [], achievements: [], facilities: [], profile: null })
+  const [isLoading, setIsLoading] = useState(true)
+  const [message, setMessage] = useState('')
+  const activeSection = sections.find((section) => section.key === activeKey)
+
+  async function logout() {
+    await fetch(`${apiBaseUrl}/logout.php`, { credentials: 'include' })
+    navigate('/admin/login', { replace: true })
+  }
+
+  const loadData = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const sessionResponse = await fetch(`${apiBaseUrl}/session.php`, { credentials: 'include' })
+      if (!sessionResponse.ok) {
+        navigate('/admin/login', { replace: true })
+        return
+      }
+      const session = await sessionResponse.json()
+      if (!session.authenticated) {
+        navigate('/admin/login', { replace: true })
+        return
+      }
+      const responses = await Promise.all(sections.map((section) => fetch(`${apiBaseUrl}/${section.endpoint}`, { credentials: 'include' })))
+      if (responses.some((response) => !response.ok)) throw new Error('Sebagian data belum dapat dimuat.')
+      const values = await Promise.all(responses.map((response) => response.json()))
+      setData({ profile: values[0], teachers: values[1], extracurriculars: values[2], achievements: values[3], facilities: values[4] })
+    } catch (error) {
+      setMessage(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [navigate])
 
   useEffect(() => {
-    async function loadFacilities() {
-      try {
-        const response = await fetch(facilitiesApiUrl)
-
-        if (!response.ok) {
-          throw new Error('Data fasilitas tidak dapat dimuat.')
-        }
-
-        setFacilities(await response.json())
-      } catch (requestError) {
-        setFacilitiesError(requestError.message)
-      } finally {
-        setIsLoadingFacilities(false)
-      }
+    async function initializeData() {
+      await loadData()
     }
 
-    loadFacilities()
-  }, [])
+    initializeData()
+  }, [loadData])
 
-  return (
-    <section className="admin-shell">
-      <aside className="admin-sidebar">
-        <div className="admin-brand"><span className="brand-mark">T1</span><div><strong>Admin Panel</strong><small>{schoolInfo.name}</small></div></div>
-        <nav className="admin-menu" aria-label="Menu admin">
-          {menuItems.map((item) => <button className={activeMenu === item ? 'admin-menu-item active' : 'admin-menu-item'} key={item} type="button" onClick={() => setActiveMenu(item)}><span>{item === 'Ringkasan' ? '◈' : item === 'Profil Sekolah' ? '◎' : item === 'Guru & Staf' ? '♙' : item === 'Akademik' ? '✦' : '□'}</span>{item}</button>)}
-        </nav>
-        <div className="admin-user"><div className="admin-avatar">SA</div><div><strong>Super Admin</strong><small>Administrator</small></div></div>
-      </aside>
-      <div className="admin-content">
-        <header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Selamat datang, Admin</h1><p>Kelola informasi sekolah dari satu tempat.</p></div><button className="admin-action" type="button">+ Tambah konten</button></header>
-        <div className="admin-breadcrumb">Dashboard <span>/</span> {activeMenu}</div>
-        <div className="admin-stats"><StatCard label="Guru & Staf" value={teachers.length} note="data terdaftar" /><StatCard label="Ekstrakurikuler" value={extracurriculars.length} note="kegiatan aktif" /><StatCard label="Prestasi" value={achievements.length} note="pencapaian tercatat" /><StatCard label="Fasilitas" value={facilities.length} note="dari database" /></div>
-        <div className="admin-grid"><section className="admin-panel"><div className="panel-heading"><div><h2>Informasi sekolah</h2><p>Data utama yang tampil di website publik.</p></div><button className="text-action" type="button">Edit data</button></div><div className="school-detail-grid"><Detail label="Nama sekolah" value={schoolInfo.name} /><Detail label="NPSN" value={schoolInfo.npsn} /><Detail label="Telepon" value={schoolInfo.phone} /><Detail label="Email" value={schoolInfo.email} /></div><div className="address-detail"><span>Alamat</span><strong>{schoolInfo.address}</strong></div></section><section className="admin-panel activity-panel"><div className="panel-heading"><div><h2>Aktivitas terbaru</h2><p>Pembaruan konten terakhir.</p></div></div><Activity title="Data fasilitas" time="Terhubung ke database" /><Activity title="Daftar prestasi" time="Data lokal" /><Activity title="Profil sekolah" time="Data lokal" /></section></div>
-        <section className="admin-panel admin-facilities-panel"><div className="panel-heading"><div><h2>Fasilitas dari database</h2><p>Data berikut dibaca langsung dari MySQL melalui API.</p></div><button className="admin-action" type="button" disabled>+ Tambah fasilitas</button></div>{isLoadingFacilities && <p className="admin-status">Memuat data fasilitas...</p>}{facilitiesError && <p className="admin-status error">{facilitiesError}</p>}{!isLoadingFacilities && !facilitiesError && <div className="admin-facility-list">{facilities.map((facility) => <div className="admin-facility-row" key={facility.id}><div><strong>{facility.name}</strong><p>{facility.description}</p></div><span className="admin-badge">Database</span></div>)}</div>}</section>
-      </div>
-    </section>
-  )
+  return <section className="admin-shell"><aside className="admin-sidebar"><div className="admin-brand"><span className="brand-mark">T1</span><div><strong>Admin Panel</strong><small>{schoolInfo.name}</small></div></div><nav className="admin-menu" aria-label="Menu admin"><button className={activeKey === 'profile' ? 'admin-menu-item active' : 'admin-menu-item'} type="button" onClick={() => setActiveKey('profile')}><span>◎</span>Profil Sekolah</button>{sections.slice(1).map((section, index) => <button className={activeKey === section.key ? 'admin-menu-item active' : 'admin-menu-item'} key={section.key} type="button" onClick={() => setActiveKey(section.key)}><span>{['♙', '✦', '✧', '□'][index]}</span>{section.label}</button>)}</nav><div className="admin-user"><div className="admin-avatar">SA</div><div><strong>Super Admin</strong><small>Pengelola konten</small></div><button className="admin-logout" type="button" onClick={logout}>Keluar</button></div></aside><div className="admin-content"><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Kelola website sekolah</h1><p>Perbarui informasi yang tampil di website publik.</p></div></header><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}{message && <p className="admin-status">{message}</p>}</div></section>
 }
 
-function StatCard({ label, value, note }) {
-  return <article className="stat-card"><span>{label}</span><strong>{value}</strong><small>{note}</small></article>
+function ResourceManager({ resource, label, items, fields, endpoint, onSaved, setMessage }) {
+  const [editing, setEditing] = useState(null)
+  const [values, setValues] = useState(null)
+  const [isSaving, setIsSaving] = useState(false)
+
+  function startEdit(item = null) {
+    setEditing(item?.id || null)
+    setValues(fields.reduce((result, field) => ({ ...result, [field.key]: item?.[field.key] || '' }), {}))
+  }
+
+  async function save(event) {
+    event.preventDefault()
+    setIsSaving(true)
+    try {
+      const response = await fetch(`${apiBaseUrl}/${endpoint}`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...values, id: editing }) })
+      await readApiResponse(response, 'Data gagal disimpan.')
+      setMessage(`${label} berhasil disimpan.`)
+      setValues(null)
+      setEditing(null)
+      await onSaved()
+    } catch (error) {
+      setMessage(error.message)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  async function remove(id) {
+    if (!window.confirm('Hapus data ini?')) return
+    const response = await fetch(`${apiBaseUrl}/${endpoint}`, { method: 'DELETE', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+    if (!response.ok) { setMessage(`Data gagal dihapus (HTTP ${response.status}).`); return }
+    setMessage(`${label} berhasil dihapus.`)
+    await onSaved()
+  }
+
+  return <section className="admin-panel content-manager"><div className="panel-heading"><div><h2>{label}</h2><p>Tambah, ubah, atau hapus data yang tampil di website.</p></div><button className="admin-action" type="button" onClick={() => startEdit()}>+ Tambah data</button></div>{values && <EditorForm fields={fields} values={values} setValues={setValues} isSaving={isSaving} onSubmit={save} onCancel={() => setValues(null)} />}<div className="manager-list">{items.map((item) => <div className="manager-row" key={item.id}><div><strong>{fields.map((field) => item[field.key]).filter(Boolean).join(' - ')}</strong>{resource !== 'achievements' && <p>{item.description || item.subject || item.role}</p>}</div><div className="manager-actions"><button type="button" onClick={() => startEdit(item)}>Edit</button><button type="button" onClick={() => remove(item.id)}>Hapus</button></div></div>)}</div></section>
 }
 
-function Detail({ label, value }) {
-  return <div><span>{label}</span><strong>{value}</strong></div>
+function EditorForm({ fields, values, setValues, isSaving, onSubmit, onCancel }) {
+  return <form className="admin-editor-form" onSubmit={onSubmit}>{fields.map((field) => <label key={field.key}>{field.label}{field.key === 'description' ? <textarea required value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} /> : <input required type={field.type || 'text'} value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} />}</label>)}<div className="editor-actions"><button className="admin-action" type="submit" disabled={isSaving}>{isSaving ? 'Menyimpan...' : 'Simpan'}</button><button className="text-action" type="button" onClick={onCancel}>Batal</button></div></form>
 }
 
-function Activity({ title, time }) {
-  return <div className="activity-item"><span className="activity-dot" /><div><strong>{title}</strong><small>Diperbarui {time}</small></div><span className="activity-arrow">→</span></div>
+function ProfileEditor({ profile, onSaved, setMessage }) {
+  const fields = [{ key: 'name', label: 'Nama resmi sekolah' }, { key: 'npsn', label: 'NPSN' }, { key: 'address', label: 'Alamat' }, { key: 'phone', label: 'Nomor telepon' }, { key: 'email', label: 'Email' }, { key: 'vision', label: 'Visi' }, { key: 'mission', label: 'Misi (satu poin per baris)' }, { key: 'history', label: 'Sejarah singkat' }, { key: 'principal_welcome', label: 'Sambutan kepala sekolah' }]
+  const [values, setValues] = useState(fields.reduce((result, field) => ({ ...result, [field.key]: profile?.[field.key] || '' }), {}))
+  const [isSaving, setIsSaving] = useState(false)
+
+  async function save(event) {
+    event.preventDefault()
+    setIsSaving(true)
+    try {
+      const response = await fetch(`${apiBaseUrl}/school-profile.php`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...values, id: profile?.id }) })
+      await readApiResponse(response, 'Profil gagal disimpan.')
+      setMessage('Profil sekolah berhasil disimpan.')
+      await onSaved()
+    } catch (error) { setMessage(error.message) } finally { setIsSaving(false) }
+  }
+
+  return <section className="admin-panel content-manager"><div className="panel-heading"><div><h2>Profil & identitas sekolah</h2><p>Kelola identitas, visi-misi, sejarah, dan sambutan kepala sekolah.</p></div></div><form className="admin-editor-form profile-editor" onSubmit={save}>{fields.map((field) => <label key={field.key}>{field.label}{['vision', 'mission', 'history', 'principal_welcome'].includes(field.key) ? <textarea required value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} /> : <input required type="text" value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} />}</label>)}<button className="admin-action" type="submit" disabled={isSaving}>{isSaving ? 'Menyimpan...' : 'Simpan profil'}</button></form></section>
 }
 
 export default Admin

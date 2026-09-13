@@ -6,6 +6,7 @@ import Profil from './pages/Profil'
 import Akademik from './pages/Akademik'
 import Fasilitas from './pages/Fasilitas'
 import Admin from './pages/Admin'
+import AdminLogin from './pages/AdminLogin'
 import './App.css'
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
 
 function AppRoutes() {
   const { pathname } = useLocation()
-  const isAdminPage = pathname === '/admin'
+  const isAdminPage = pathname === '/admin' || pathname === '/admin/login'
 
   return <>
     {!isAdminPage && <Navbar />}
@@ -29,6 +30,7 @@ function AppRoutes() {
         <Route path="/akademik" element={<Akademik />} />
         <Route path="/fasilitas" element={<Fasilitas />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
       </Routes>
     </main>
     {!isAdminPage && <Footer />}
