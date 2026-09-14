@@ -34,7 +34,9 @@ function Profil() {
     loadTeachers()
   }, [])
 
-  const mission = profile.mission?.split('\n').filter(Boolean) || schoolInfo.mission
+  const mission = Array.isArray(profile.mission)
+    ? profile.mission.filter(Boolean)
+    : profile.mission?.split('\n').filter(Boolean) || schoolInfo.mission
   return <section className="container page"><div className="page-heading"><p className="eyebrow">TENTANG KAMI</p><h1>Profil sekolah</h1><p className="lead">Mengenal identitas, perjalanan, dan orang-orang yang membuat {profile.name} terus bertumbuh.</p></div><div className="two-column"><article><h2>Visi</h2><p>{profile.vision}</p><h2>Misi</h2><ul>{mission.map((item) => <li key={item}>{item}</li>)}</ul></article><aside className="fact-panel"><span>NPSN</span><strong>{profile.npsn}</strong><span>BERDIRI DAN BERTUMBUH</span><p>{profile.history}</p></aside></div><h2>Guru dan staf</h2>{isLoading && <p className="lead">Memuat data guru...</p>}{error && <p className="lead">{error}</p>}{!isLoading && !error && <div className="card-grid">{teachers.map((teacher) => <CardGuru key={teacher.id} teacher={teacher} />)}</div>}</section>
 }
 

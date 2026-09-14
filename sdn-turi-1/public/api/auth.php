@@ -1,8 +1,22 @@
 <?php
 
+$isSecureRequest = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => $isSecureRequest,
+    'httponly' => true,
+    'samesite' => $isSecureRequest ? 'None' : 'Lax',
+]);
 session_start();
 
-$allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://sdn1turi.my.id'];
+$allowedOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
+    'https://sdn1turi.my.id',
+];
 $requestOrigin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 if (in_array($requestOrigin, $allowedOrigins, true)) {

@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Profil from './pages/Profil'
 import Akademik from './pages/Akademik'
 import Fasilitas from './pages/Fasilitas'
+import Artikel from './pages/Artikel'
 import Admin from './pages/Admin'
 import AdminLogin from './pages/AdminLogin'
 import './App.css'
@@ -29,6 +30,7 @@ function AppRoutes() {
         <Route path="/profil" element={<Profil />} />
         <Route path="/akademik" element={<Akademik />} />
         <Route path="/fasilitas" element={<Fasilitas />} />
+        <Route path="/artikel" element={<Artikel />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/login" element={<AdminLogin />} />
       </Routes>

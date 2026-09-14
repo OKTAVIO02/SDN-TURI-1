@@ -7,6 +7,14 @@ require_once __DIR__ . '/auth.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS achievements (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255) NOT NULL, year YEAR NOT NULL, level VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)");
+} catch (Throwable $error) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Tabel prestasi belum siap. Jalankan schema.sql di database hosting.']);
+    exit;
+}
+
 if ($method !== 'GET') {
     requireAdmin();
 }
@@ -52,12 +60,24 @@ if ($title === '' || $year < 1900 || $level === '') {
 }
 
 if ($id > 0) {
-    $statement = $pdo->prepare('UPDATE achievements SET title = ?, year = ?, level = ? WHERE id = ?');
-    $statement->execute([$title, $year, $level, $id]);
+    try {
+        $statement = $pdo->prepare('UPDATE achievements SET title = ?, year = ?, level = ? WHERE id = ?');
+        $statement->execute([$title, $year, $level, $id]);
+    } catch (Throwable $error) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Prestasi gagal diperbarui. Periksa struktur tabel achievements.']);
+        exit;
+    }
 } else {
-    $statement = $pdo->prepare('INSERT INTO achievements (title, year, level) VALUES (?, ?, ?)');
-    $statement->execute([$title, $year, $level]);
-    $id = (int) $pdo->lastInsertId();
+    try {
+        $statement = $pdo->prepare('INSERT INTO achievements (title, year, level) VALUES (?, ?, ?)');
+        $statement->execute([$title, $year, $level]);
+        $id = (int) $pdo->lastInsertId();
+    } catch (Throwable $error) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Prestasi gagal ditambahkan. Periksa struktur tabel achievements.']);
+        exit;
+    }
 }
 
 echo json_encode(['id' => $id, 'title' => $title, 'year' => $year, 'level' => $level]);

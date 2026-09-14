@@ -1,7 +1,7 @@
 export const schoolInfo = {
   name: 'SD Negeri Turi 1',
   tagline: 'Mendidik dengan hati, tumbuh bersama prestasi.',
-  address: 'Jl. Pendidikan No. 1, Turi, Sleman, Yogyakarta',
+  address: 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352',
   phone: '(0274) 123456',
   email: 'info@sdnturi1.sch.id',
   npsn: '20401234',
