@@ -13,7 +13,7 @@ const sections = [
 ]
 
 const resourceFields = {
-  teachers: [{ key: 'name', label: 'Nama lengkap' }, { key: 'role', label: 'Jabatan' }, { key: 'subject', label: 'Bidang atau mata pelajaran' }],
+  teachers: [{ key: 'name', label: 'Nama lengkap' }, { key: 'role', label: 'Jabatan' }, { key: 'subject', label: 'Bidang atau mata pelajaran' }, { key: 'photo', label: 'Foto profil (JPG, PNG, WebP; maksimal 5 MB)', type: 'file' }],
   extracurriculars: [{ key: 'name', label: 'Nama kegiatan' }, { key: 'description', label: 'Deskripsi' }],
   achievements: [{ key: 'title', label: 'Nama prestasi' }, { key: 'year', label: 'Tahun', type: 'number' }, { key: 'level', label: 'Tingkat' }],
   facilities: [{ key: 'name', label: 'Nama fasilitas' }, { key: 'description', label: 'Deskripsi' }, { key: 'condition_label', label: 'Kondisi fisik' }, { key: 'is_featured', label: 'Fasilitas unggulan (ketik 1 atau 0)', type: 'number' }],
@@ -84,7 +84,7 @@ function Admin() {
     initializeData()
   }, [loadData])
 
-  return <section className="admin-shell"><aside className="admin-sidebar"><div className="admin-brand"><img className="admin-brand-logo" src="/logo%20sdn.svg" alt="" /><div><strong>Admin Panel</strong><small>{schoolInfo.name}</small></div></div><nav className="admin-menu" aria-label="Menu admin"><button className={activeKey === 'profile' ? 'admin-menu-item active' : 'admin-menu-item'} type="button" onClick={() => setActiveKey('profile')}><span>◎</span>Profil Sekolah</button>{sections.slice(1).map((section, index) => <button className={activeKey === section.key ? 'admin-menu-item active' : 'admin-menu-item'} key={section.key} type="button" onClick={() => setActiveKey(section.key)}><span>{['♙', '✦', '✧', '□', '◫'][index]}</span>{section.label}</button>)}</nav><div className="admin-user"><div className="admin-avatar">SA</div><div><strong>Super Admin</strong><small>Pengelola konten</small></div><button className="admin-logout" type="button" onClick={logout}>Keluar</button></div></aside><div className="admin-content"><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Kelola website sekolah</h1><p>Perbarui informasi yang tampil di website publik.</p></div></header><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}{message && <p className="admin-status">{message}</p>}</div></section>
+  return <section className="admin-shell"><aside className="admin-sidebar"><div className="admin-brand"><img className="admin-brand-logo" src="/logo%20sdn.svg" alt="" /><div><strong>Admin Panel</strong><small>{schoolInfo.name}</small></div></div><nav className="admin-menu" aria-label="Menu admin"><button className={activeKey === 'profile' ? 'admin-menu-item active' : 'admin-menu-item'} type="button" onClick={() => setActiveKey('profile')}><span>◎</span>Profil Sekolah</button>{sections.slice(1).map((section, index) => <button className={activeKey === section.key ? 'admin-menu-item active' : 'admin-menu-item'} key={section.key} type="button" onClick={() => setActiveKey(section.key)}><span>{['♙', '✦', '✧', '□', '◫'][index]}</span>{section.label}</button>)}</nav><div className="admin-user"><div className="admin-avatar">SA</div><div><strong>Super Admin</strong><small>Pengelola konten</small></div><button className="admin-logout" type="button" onClick={logout}>Keluar</button></div></aside><div className="admin-content"><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Kelola website sekolah</h1><p>Perbarui informasi yang tampil di website publik.</p></div></header><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor key={data.profile?.id || 'profile'} profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}{message && <p className="admin-status">{message}</p>}</div></section>
 }
 
 function ResourceManager({ resource, label, items, fields, endpoint, onSaved, setMessage }) {
@@ -104,7 +104,17 @@ function ResourceManager({ resource, label, items, fields, endpoint, onSaved, se
       if (resource === 'achievements' && (!values.title?.trim() || !values.year || Number(values.year) < 1900 || !values.level?.trim())) {
         throw new Error('Nama prestasi, tahun minimal 1900, dan tingkat wajib diisi.')
       }
-      const response = await fetch(`${apiBaseUrl}/${endpoint}`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...values, id: editing }) })
+      const isTeacherUpload = resource === 'teachers'
+      const body = isTeacherUpload ? (() => {
+        const formData = new FormData()
+        Object.entries(values).forEach(([key, value]) => {
+          if (key !== 'photo' && value !== undefined && value !== null) formData.append(key, value)
+        })
+        formData.append('id', editing || '')
+        if (values.photo instanceof File) formData.append('photo', values.photo)
+        return formData
+      })() : JSON.stringify({ ...values, id: editing })
+      const response = await fetch(`${apiBaseUrl}/${endpoint}`, { method: 'POST', credentials: 'include', ...(isTeacherUpload ? {} : { headers: { 'Content-Type': 'application/json' } }), body })
       await readApiResponse(response, 'Data gagal disimpan.')
       setMessage(`${label} berhasil disimpan.`)
       setValues(null)
@@ -129,7 +139,7 @@ function ResourceManager({ resource, label, items, fields, endpoint, onSaved, se
 }
 
 function EditorForm({ fields, values, setValues, isSaving, onSubmit, onCancel }) {
-  return <form className="admin-editor-form" onSubmit={onSubmit}>{fields.map((field) => <label key={field.key}>{field.label}{['description', 'excerpt'].includes(field.key) ? <textarea required value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} /> : <input required type={field.type || 'text'} value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} />}</label>)}<div className="editor-actions"><button className="admin-action" type="submit" disabled={isSaving}>{isSaving ? 'Menyimpan...' : 'Simpan'}</button><button className="text-action" type="button" onClick={onCancel}>Batal</button></div></form>
+  return <form className="admin-editor-form" onSubmit={onSubmit}>{fields.map((field) => <label key={field.key}>{field.label}{field.type === 'file' ? <input accept="image/jpeg,image/png,image/webp" type="file" onChange={(event) => setValues({ ...values, [field.key]: event.target.files?.[0] || null })} /> : ['description', 'excerpt'].includes(field.key) ? <textarea required value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} /> : <input required type={field.type || 'text'} value={values[field.key]} onChange={(event) => setValues({ ...values, [field.key]: event.target.value })} />}</label>)}<div className="editor-actions"><button className="admin-action" type="submit" disabled={isSaving}>{isSaving ? 'Menyimpan...' : 'Simpan'}</button><button className="text-action" type="button" onClick={onCancel}>Batal</button></div></form>
 }
 
 function ProfileEditor({ profile, onSaved, setMessage }) {
@@ -137,10 +147,6 @@ function ProfileEditor({ profile, onSaved, setMessage }) {
   const emptyValues = fields.reduce((result, field) => ({ ...result, [field.key]: '' }), {})
   const [values, setValues] = useState(emptyValues)
   const [isSaving, setIsSaving] = useState(false)
-
-  useEffect(() => {
-    setValues(fields.reduce((result, field) => ({ ...result, [field.key]: profile?.[field.key] || '' }), {}))
-  }, [profile])
 
   async function save(event) {
     event.preventDefault()

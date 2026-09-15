@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 public/api/config.php
+public/uploads/teachers/*
+!public/uploads/teachers/.gitkeep
 *.zip
 
 # Editor directories and files
