@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { achievements, extracurriculars, facilities, schoolInfo } from '../data/schoolData'
+import CardGuru from '../components/CardGuru'
+import { achievements, extracurriculars, facilities, schoolInfo, teachers as defaultTeachers } from '../data/schoolData'
 
 const articleCards = [
   {
@@ -23,16 +24,29 @@ const articleCards = [
   },
 ]
 
-const quickAccess = [
-  { label: 'Profil Sekolah', icon: '◎', to: '/profil' },
-  { label: 'Berita & Artikel', icon: '◫', to: '/artikel' },
-  { label: 'Akademik', icon: '▣', to: '/akademik' },
-  { label: 'Fasilitas', icon: '◍', to: '/fasilitas' },
-]
-
 function Home() {
   const [profile, setProfile] = useState(schoolInfo)
+  const [teachers, setTeachers] = useState(defaultTeachers)
+  const [teacherSlide, setTeacherSlide] = useState(0)
   const [, setHomeData] = useState({ achievements, extracurriculars, facilities })
+
+  useEffect(() => {
+    const revealElements = document.querySelectorAll('.scroll-reveal')
+
+    if (!('IntersectionObserver' in window)) {
+      revealElements.forEach((element) => element.classList.add('is-visible'))
+      return undefined
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle('is-visible', entry.isIntersecting)
+      })
+    }, { threshold: 0.14 })
+
+    revealElements.forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     Promise.all([
@@ -40,16 +54,19 @@ function Home() {
       fetch('https://sdn1turi.my.id/api/achievements.php'),
       fetch('https://sdn1turi.my.id/api/extracurriculars.php'),
       fetch('https://sdn1turi.my.id/api/facilities.php'),
+      fetch('https://sdn1turi.my.id/api/teachers.php'),
     ])
-      .then(async ([profileResponse, achievementsResponse, extracurricularResponse, facilitiesResponse]) => {
-        const [nextProfile, nextAchievements, nextExtracurriculars, nextFacilities] = await Promise.all([
+      .then(async ([profileResponse, achievementsResponse, extracurricularResponse, facilitiesResponse, teachersResponse]) => {
+        const [nextProfile, nextAchievements, nextExtracurriculars, nextFacilities, nextTeachers] = await Promise.all([
           profileResponse.ok ? profileResponse.json() : null,
           achievementsResponse.ok ? achievementsResponse.json() : null,
           extracurricularResponse.ok ? extracurricularResponse.json() : null,
           facilitiesResponse.ok ? facilitiesResponse.json() : null,
+          teachersResponse.ok ? teachersResponse.json() : null,
         ])
 
         if (nextProfile) setProfile(nextProfile)
+        if (Array.isArray(nextTeachers) && nextTeachers.length > 0) setTeachers(nextTeachers)
         setHomeData({
           achievements: nextAchievements || achievements,
           extracurriculars: nextExtracurriculars || extracurriculars,
@@ -59,11 +76,22 @@ function Home() {
       .catch(() => {})
   }, [])
 
+  useEffect(() => {
+    const maxSlide = Math.max(teachers.length - 3, 0)
+    if (maxSlide === 0) return undefined
+
+    const slideTimer = window.setInterval(() => {
+      setTeacherSlide((currentSlide) => (currentSlide >= maxSlide ? 0 : currentSlide + 1))
+    }, 5500)
+
+    return () => window.clearInterval(slideTimer)
+  }, [teachers.length])
+
   return (
     <div className="home-template">
       <header className="school-hero-shell">
         <div className="container school-hero">
-          <div className="school-hero-copy">
+          <div className="school-hero-copy hero-stagger">
             <span className="hero-badge">Selamat datang di</span>
             <h1>SD Negeri Turi 1</h1>
             <p className="school-hero-lead">{profile.tagline || schoolInfo.tagline} Kami menghadirkan lingkungan belajar yang hangat, aktif, dan aman untuk merawat semangat belajar setiap anak.</p>
@@ -73,7 +101,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="school-hero-visual" aria-label="Logo SD Negeri Turi 1">
+          <div className="school-hero-visual hero-stagger" aria-label="Logo SD Negeri Turi 1">
             <img className="school-emblem" src="/logo%20sdn.svg" alt="Logo SD Negeri Turi 1" />
           </div>
         </div>
@@ -81,7 +109,7 @@ function Home() {
       </header>
 
       <main>
-        <section className="container home-section welcome-section">
+        <section className="container home-section welcome-section scroll-reveal">
           <div className="section-header center">
             <p className="eyebrow">Sambutan Kepala Sekolah</p>
             <h2>Selamat datang di sekolah kami</h2>
@@ -104,7 +132,7 @@ function Home() {
           </div>
         </section>
 
-        <section className="container home-section news-section">
+        <section className="container home-section news-section scroll-reveal">
           <div className="section-header center">
             <p className="eyebrow">Artikel &amp; Berita</p>
             <h2>Informasi terbaru sekolah</h2>
@@ -125,7 +153,7 @@ function Home() {
           </div>
         </section>
 
-        <section className="container home-section video-section">
+        <section className="container home-section video-section scroll-reveal">
           <div className="section-header center">
             <p className="eyebrow">Profile Sekolah</p>
             <h2>Video Profil Sekolah</h2>
@@ -148,25 +176,31 @@ function Home() {
           </div>
         </section>
 
-        <section className="quick-access-section">
-          <div className="container quick-access-wrap">
-            <div className="section-header center light">
-              <p className="eyebrow">Akses Cepat</p>
-              <h2>Temukan layanan utama kami</h2>
+        <section className="teacher-section scroll-reveal">
+          <div className="container teacher-section-wrap">
+            <div className="section-header center">
+              <p className="eyebrow">Guru &amp; Staff</p>
+              <h2>Orang-orang di balik sekolah kami</h2>
             </div>
 
-            <div className="quick-grid">
-              {quickAccess.map((item) => (
-                <Link key={item.label} className="quick-card" to={item.to}>
-                  <span className="quick-icon">{item.icon}</span>
-                  <strong>{item.label}</strong>
-                </Link>
-              ))}
+            <div className="teacher-carousel">
+              <button className="carousel-button carousel-prev" type="button" onClick={() => setTeacherSlide((currentSlide) => Math.max(currentSlide - 1, 0))} aria-label="Guru sebelumnya">&larr;</button>
+              <div className="teacher-viewport">
+                <div className="teacher-track" style={{ '--teacher-slide': teacherSlide }}>
+                  {teachers.map((teacher, index) => <CardGuru key={teacher.id || `${teacher.name}-${index}`} teacher={teacher} />)}
+                </div>
+              </div>
+              <button className="carousel-button carousel-next" type="button" onClick={() => setTeacherSlide((currentSlide) => Math.min(currentSlide + 1, Math.max(teachers.length - 3, 0)))} aria-label="Guru berikutnya">&rarr;</button>
             </div>
+
+            <div className="carousel-dots" aria-label="Posisi carousel guru">
+              {Array.from({ length: Math.max(teachers.length - 2, 1) }, (_, index) => <button key={index} className={index === teacherSlide ? 'is-active' : ''} type="button" onClick={() => setTeacherSlide(index)} aria-label={`Buka slide ${index + 1}`} />)}
+            </div>
+            <Link className="teacher-more-link" to="/profil">Lihat semua guru <span>-&gt;</span></Link>
           </div>
         </section>
 
-        <section className="container home-section contact-section">
+        <section className="container home-section contact-section scroll-reveal">
           <div className="contact-panel">
             <div className="contact-copy">
               <p className="eyebrow">Informasi Kontak</p>

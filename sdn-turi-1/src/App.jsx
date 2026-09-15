@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -11,8 +12,20 @@ import AdminLogin from './pages/AdminLogin'
 import './App.css'
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true)
+
+  useEffect(() => {
+    const introTimer = window.setTimeout(() => setShowIntro(false), 1800)
+    return () => window.clearTimeout(introTimer)
+  }, [])
+
   return (
     <BrowserRouter>
+      {showIntro && (
+        <div className="intro-screen" aria-label="Memuat SD Negeri Turi 1">
+          <img className="intro-logo" src="/logo%20sdn.svg" alt="Logo SD Negeri Turi 1" />
+        </div>
+      )}
       <AppRoutes />
     </BrowserRouter>
   )
