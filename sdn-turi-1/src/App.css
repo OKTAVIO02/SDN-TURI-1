@@ -424,58 +424,62 @@ body { background: linear-gradient(135deg, #f8fbfd 0%, #eef7f7 52%, #fff8ef 100%
   .welcome-note { right: 0; }
 }
 
-/* Warm school palette */
+/* Elegant modern school palette */
 :root {
-  --ink: #163e5c;
-  --ink-soft: #4c6779;
-  --coral: #1b6a8c;
-  --coral-deep: #13506d;
-  --sun: #f0c86a;
-  --mint: #dfeee7;
-  --sky: #edf6fb;
-  --paper: #f8fbff;
+  --ink: #173a4b;
+  --ink-soft: #526a76;
+  --coral: #2d6f7a;
+  --coral-deep: #1b5567;
+  --sun: #d7b06d;
+  --mint: #eaf4ef;
+  --sky: #edf5f7;
+  --paper: #f7f4ee;
+  --ivory: #f9f7f2;
+  --stone: #dbe3e0;
+  --navy-deep: #122b3c;
+  --sage: #bfd8cb;
 }
-body { background: #f7fbfa; color: var(--ink-soft); }
-.site-header { background: rgba(255, 253, 248, .94); border-bottom-color: #d8ebe8; }
+body { background: #f6f3ee; color: var(--ink-soft); }
+.site-header { background: rgba(249, 247, 242, .96); border-bottom-color: rgba(23, 58, 75, .12); }
 .brand, h1, h2, h3, .welcome-note p, .welcome-panel p, .fact-panel strong, .school-detail-grid strong, .address-detail strong { color: var(--ink); }
 .brand-mark { background: linear-gradient(135deg, var(--coral), var(--coral-deep)); }
 .nav-link { color: var(--ink-soft); }
 .nav-link.active, .nav-link:hover { color: var(--coral-deep); border-color: var(--coral); }
-.site-main { background: radial-gradient(circle at 10% 20%, rgba(223, 238, 231, .8), transparent 29%), radial-gradient(circle at 90% 80%, rgba(240, 200, 106, .14), transparent 28%); }
+.site-main { background: radial-gradient(circle at 10% 20%, rgba(213, 232, 226, .8), transparent 29%), radial-gradient(circle at 90% 80%, rgba(215, 176, 109, .16), transparent 28%); }
 .eyebrow, .hero-tagline, .panel-number, .info-card small, .stat-card small, .card-icon { color: var(--coral-deep); }
 .lead, .two-column p, li, .info-card p, .highlight p, .admin-topbar p:not(.eyebrow), .panel-heading p { color: var(--ink-soft); }
 .button, .admin-action { background: linear-gradient(135deg, var(--ink), var(--coral-deep)); }
 .button:hover, .admin-action:hover { background: linear-gradient(135deg, var(--coral-deep), var(--coral)); }
 .hero-facts strong { color: var(--coral-deep); }
-.home-page::before { background: rgba(240, 200, 106, .18); }
-.sun { background: var(--sun); box-shadow: 0 0 0 14px rgba(240, 200, 106, .14); }
+.home-page::before { background: rgba(215, 176, 109, .18); }
+.sun { background: var(--sun); box-shadow: 0 0 0 14px rgba(215, 176, 109, .14); }
 .cloud { background: var(--paper); }
-.hill-back { background: #a7dccc; }
-.hill-front { background: #68b99f; }
+.hill-back { background: #bfd9d1; }
+.hill-front { background: #7bb4a3; }
 .welcome-panel, .fact-panel, .highlight { background: var(--sky); }
 .welcome-panel { border-top-color: var(--coral); }
-.info-card { background: rgba(255, 253, 248, .9); border-color: #d5e9e5; }
-.accent-card { background: #fff3df; border-color: #f5d49e; }
-.avatar { background: #f8d49e; }
+.info-card { background: rgba(255, 255, 255, .82); border-color: rgba(23, 58, 75, .12); }
+.accent-card { background: #f8f0e1; border-color: rgba(215, 176, 109, .5); }
+.avatar { background: #ead6ad; }
 .teacher-card { overflow: hidden; padding-top: 0; }
-.teacher-card { background: #123b57; border: 0; border-radius: 2px; min-height: 280px; padding: 0; position: relative; }
-.teacher-photo { background: linear-gradient(145deg, #8eb5b7, #123b57); display: block; height: 280px; object-fit: cover; width: 100%; }
+.teacher-card { background: #163a4b; border: 0; border-radius: 2px; min-height: 280px; padding: 0; position: relative; }
+.teacher-photo { background: linear-gradient(145deg, #a5c1c5, #163a4b); display: block; height: 280px; object-fit: cover; width: 100%; }
 .teacher-photo-fallback { align-items: center; display: flex; justify-content: center; }
 .teacher-photo-fallback span { color: rgba(255,255,255,.78); font-family: Georgia, serif; font-size: 92px; }
-.teacher-card::after { background: linear-gradient(180deg, transparent 35%, rgba(5,24,38,.94) 100%); content: ''; inset: 0; pointer-events: none; position: absolute; }
+.teacher-card::after { background: linear-gradient(180deg, transparent 35%, rgba(10,25,36,.94) 100%); content: ''; inset: 0; pointer-events: none; position: absolute; }
 .teacher-card-copy { bottom: 0; color: #fff; left: 0; padding: 22px 20px 18px; position: absolute; right: 0; z-index: 1; }
 .teacher-card h3 { color: #fff; font-family: Georgia, serif; font-size: 18px; line-height: 1.15; margin: 0 0 5px; }
 .teacher-card p, .teacher-card small { color: rgba(255,255,255,.82); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 11px; margin: 0; }
-.teacher-card small { color: #f2cf7a; margin-top: 3px; }
+.teacher-card small { color: #e9c890; margin-top: 3px; }
 .teacher-card:hover { box-shadow: 0 16px 28px rgba(18,59,87,.2); transform: translateY(-4px); }
-.site-footer { background: var(--ink); }
-.admin-shell { background: #f0f8f6; }
+.site-footer { background: var(--navy-deep); }
+.admin-shell { background: #f1f5f3; }
 .admin-sidebar { background: var(--ink); }
-.admin-menu-item:hover, .admin-menu-item.active { background: #245a70; }
-.admin-menu-item span, .activity-arrow { color: var(--coral); }
+.admin-menu-item:hover, .admin-menu-item.active { background: rgba(255,255,255,.12); }
+.admin-menu-item span, .activity-arrow { color: var(--sun); }
 .admin-avatar { background: var(--coral); }
 .stat-card strong { color: var(--ink); }
-.stat-card, .admin-panel { background: rgba(255, 253, 248, .94); border-color: #d5e9e5; }
+.stat-card, .admin-panel { background: rgba(255, 255, 255, .9); border-color: rgba(23, 58, 75, .12); }
 .welcome-note { border-color: var(--ink); box-shadow: 7px 8px 0 var(--sun); }
 .scarf { background: var(--coral); }
 .scarf::after { background: var(--sun); }
@@ -671,14 +675,22 @@ body { background: #f7fbfa; color: var(--ink-soft); }
 .admin-login-page { background: linear-gradient(135deg, #0d4a59 0%, #0f6974 65%, #f0c86a 160%); }
 .admin-login-card { border: 1px solid rgba(255,255,255,.7); border-radius: 16px; }
 
-/* Institutional editorial theme inspired by the reference school website. */
+/* Elegant modern school palette */
 :root {
-  --institution-navy: #123b57;
-  --institution-blue: #176d86;
-  --institution-teal: #0e8790;
-  --institution-gold: #d9aa4c;
-  --institution-paper: #f5f8f7;
-  --institution-line: #dbe5e6;
+  --institution-navy: #173a4b;
+  --institution-blue: #2f5f72;
+  --institution-teal: #2e7e7d;
+  --institution-gold: #d0a967;
+  --institution-paper: #f5f3ee;
+  --institution-line: #dfe9e5;
+  --ink: #18384a;
+  --ink-soft: #526a76;
+  --coral: #2d6f7a;
+  --coral-deep: #1d5366;
+  --sun: #d6b06a;
+  --mint: #e8f3ee;
+  --sky: #eef6f8;
+  --paper: #f8f5f1;
 }
 
 body { background: var(--institution-paper); color: #4b6472; }
@@ -691,7 +703,7 @@ nav { gap: 8px; }
 .nav-link { color: #526a78; font-family: 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .03em; padding: 31px 14px 27px; text-transform: uppercase; }
 .nav-link.active, .nav-link:hover { background: #eef6f6; border-color: var(--institution-teal); color: var(--institution-teal); }
 
-.school-hero-shell { background: linear-gradient(115deg, #0d415d 0%, #126879 63%, #0b8790 100%); border-bottom: 8px solid var(--institution-gold); position: relative; }
+.school-hero-shell { background: linear-gradient(115deg, rgba(19,47,63,.92), rgba(31,83,96,.84) 48%, rgba(28,128,123,.82) 100%), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2200&q=85'); border-bottom: 8px solid var(--institution-gold); position: relative; }
 .school-hero-shell::before { background: linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px); background-size: 28px 28px; content: ''; inset: 0; opacity: .35; pointer-events: none; position: absolute; }
 .school-hero { min-height: 520px; padding-bottom: 72px; padding-top: 72px; position: relative; }
 .school-hero-copy { max-width: 650px; }
@@ -699,11 +711,10 @@ nav { gap: 8px; }
 .school-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(48px, 6vw, 82px); letter-spacing: -2px; line-height: .98; text-shadow: 0 3px 0 rgba(0,0,0,.08); }
 .school-hero-lead { color: rgba(255,255,255,.84); font-family: 'Trebuchet MS', sans-serif; font-size: 16px; max-width: 550px; }
 .school-hero .button { background: var(--institution-gold); border-radius: 2px; color: var(--institution-navy); font-family: 'Trebuchet MS', sans-serif; }
-.school-hero .button:hover { background: #f0cc78; }
+.school-hero .button:hover { background: #e7c077; }
 .school-hero .quiet-link { font-family: 'Trebuchet MS', sans-serif; }
 .school-hero-visual { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25); border-radius: 2px; box-shadow: 14px 14px 0 rgba(5,43,63,.16); }
 .school-emblem { filter: drop-shadow(0 14px 20px rgba(0,0,0,.18)); }
-.school-hero-shell { background-image: linear-gradient(115deg, rgba(13,65,93,.86), rgba(18,104,121,.78) 63%, rgba(11,135,144,.82)), url('https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2200&q=85'); background-position: center; background-repeat: no-repeat; background-size: cover; }
 .hero-stagger { animation: hero-slide-in 850ms cubic-bezier(.22, 1, .36, 1) both; }
 .school-hero-visual.hero-stagger { animation-delay: 180ms; }
 .scroll-reveal { opacity: 0; transform: translateY(42px); transition: opacity 700ms ease, transform 700ms cubic-bezier(.22, 1, .36, 1); }
@@ -715,9 +726,9 @@ nav { gap: 8px; }
 .eyebrow, .section-kicker, .section-header .eyebrow { color: var(--institution-teal); font-family: 'Trebuchet MS', sans-serif; letter-spacing: 2px; }
 .welcome-section, .news-section, .video-section, .contact-section { background: transparent; }
 .welcome-card { background: #fff; border: 1px solid var(--institution-line); border-radius: 2px; box-shadow: 0 16px 32px rgba(18,59,87,.08); max-width: 980px; padding: 42px 48px; }
-.welcome-avatar { background: var(--institution-navy); border-radius: 2px; }
+.welcome-avatar { background: linear-gradient(135deg, var(--institution-blue), var(--institution-navy)); border-radius: 2px; }
 .welcome-copy p { color: #526a78; font-family: 'Trebuchet MS', sans-serif; }
-.news-section { background: #eaf3f3; max-width: none; padding-left: max(36px, calc((100% - 1280px) / 2)); padding-right: max(36px, calc((100% - 1280px) / 2)); }
+.news-section { background: #edf4f3; max-width: none; padding-left: max(36px, calc((100% - 1280px) / 2)); padding-right: max(36px, calc((100% - 1280px) / 2)); }
 .news-grid { gap: 22px; }
 .news-card { border: 0; border-radius: 2px; box-shadow: 0 12px 22px rgba(18,59,87,.08); min-height: 280px; }
 .news-card.mint { background: #fff; border-top: 5px solid var(--institution-teal); }
@@ -732,34 +743,31 @@ nav { gap: 8px; }
 .quick-card:hover { background: var(--institution-teal); transform: translateY(-4px); }
 .contact-panel { background: #fff; border: 1px solid var(--institution-line); border-radius: 2px; box-shadow: 0 16px 32px rgba(18,59,87,.08); }
 .map-box { border-radius: 2px; }
-.site-footer { background: #0b3048; border-top: 7px solid var(--institution-gold); }
-.intro-screen { align-items: center; animation: intro-screen-exit 520ms ease 1.2s both; background: var(--institution-navy); display: flex; inset: 0; justify-content: center; position: fixed; z-index: 20; }
-.intro-logo { animation: intro-logo-arrive 900ms cubic-bezier(.22, 1, .36, 1) both; filter: drop-shadow(0 16px 22px rgba(0,0,0,.2)); height: clamp(150px, 22vw, 245px); width: clamp(150px, 22vw, 245px); }
-.teacher-section { background: linear-gradient(180deg, #f1faf8 0%, #e5f3f4 100%); padding: 94px 0 106px; }
+.site-footer { background: #102e3f; border-top: 7px solid var(--institution-gold); }
+.teacher-section { background: linear-gradient(180deg, #f3faf9 0%, #ebf4f5 100%); padding: 94px 0 106px; }
 .teacher-section-wrap { overflow: hidden; }
 .teacher-section .section-header { margin-bottom: 38px; }
 .teacher-section .section-header h2 { color: var(--institution-navy); }
 .teacher-carousel { align-items: center; display: flex; gap: 18px; }
 .teacher-viewport { flex: 1; min-width: 0; overflow: hidden; }
 .teacher-track { display: flex; gap: 22px; transform: translateX(calc(var(--teacher-slide) * -33.333% - var(--teacher-slide) * 7.333px)); transition: transform 700ms cubic-bezier(.22, 1, .36, 1); }
-.teacher-track .teacher-card { animation: teacher-card-enter 700ms cubic-bezier(.22, 1, .36, 1) both; box-shadow: 0 14px 28px rgba(18,59,87,.14); flex: 0 0 calc((100% - 44px) / 3); min-height: 350px; transition: box-shadow 240ms ease, transform 240ms ease; }
-.teacher-track .teacher-card:hover { box-shadow: 0 20px 34px rgba(18,59,87,.22); transform: translateY(-7px); }
-.teacher-track .teacher-photo { height: 350px; }
+.teacher-track .teacher-card { animation: teacher-card-enter 700ms cubic-bezier(.22, 1, .36, 1) both; box-shadow: 0 14px 28px rgba(18,59,87,.14); flex: 0 0 calc((100% - 44px) / 3); min-height: 350px; overflow: hidden; position: relative; transition: box-shadow 240ms ease, transform 240ms ease, filter 240ms ease, opacity 240ms ease; }
+.teacher-track .teacher-card:hover { box-shadow: 0 20px 34px rgba(18,59,87,.22); filter: saturate(1.08); transform: translateY(-7px) scale(0.985); }
+.teacher-track .teacher-card:not(:hover) { opacity: 0.94; }
+.teacher-track .teacher-card .teacher-photo { height: 350px; transition: transform 260ms ease, filter 260ms ease; transform-origin: center; }
+.teacher-track .teacher-card:hover .teacher-photo { transform: scale(1.04); filter: contrast(1.06); }
 .carousel-button { align-items: center; background: #fff; border: 0; border-radius: 50%; box-shadow: 0 8px 20px rgba(18,59,87,.14); color: var(--institution-navy); cursor: pointer; display: flex; flex: 0 0 42px; font-size: 21px; height: 42px; justify-content: center; padding: 0; transition: background 180ms ease, color 180ms ease, transform 180ms ease; width: 42px; z-index: 1; }
 .carousel-button:hover { background: var(--institution-gold); transform: scale(1.08); }
 .carousel-button:disabled { cursor: default; opacity: .45; }
 .carousel-dots { display: flex; gap: 8px; justify-content: center; margin-top: 26px; }
-.carousel-dots button { background: #bdcfe8; border: 0; border-radius: 99px; cursor: pointer; height: 9px; padding: 0; transition: background 220ms ease, width 220ms ease; width: 9px; }
+.carousel-dots button { background: #a2b8c7; border: 0; border-radius: 99px; cursor: pointer; height: 9px; padding: 0; transition: background 220ms ease, width 220ms ease; width: 9px; }
 .carousel-dots button.is-active { background: var(--institution-teal); width: 27px; }
 .teacher-more-link { color: var(--institution-navy); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 700; margin: 25px auto 0; text-align: center; text-decoration: none; }
 .teacher-more-link span { color: var(--institution-teal); margin-left: 8px; }
 
 @keyframes hero-slide-in { from { opacity: 0; transform: translateX(-58px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes intro-logo-arrive { from { opacity: 0; transform: scale(.68) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
-@keyframes intro-screen-exit { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
 @keyframes teacher-card-enter { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .hero-stagger, .scroll-reveal { animation: none; opacity: 1; transform: none; transition: none; } }
-@media (prefers-reduced-motion: reduce) { .intro-screen, .intro-logo { animation: none; } }
 
 @media (max-width: 700px) {
   .navbar { min-height: 70px; padding-top: 0; }

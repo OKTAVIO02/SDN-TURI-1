@@ -24,6 +24,17 @@ const articleCards = [
   },
 ]
 
+const canonicalAddress = 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352'
+
+function normalizeProfile(profileData) {
+  return {
+    ...schoolInfo,
+    ...(profileData || {}),
+    name: 'SD Negeri Turi 1',
+    address: canonicalAddress,
+  }
+}
+
 function Home() {
   const [profile, setProfile] = useState(schoolInfo)
   const [teachers, setTeachers] = useState(defaultTeachers)
@@ -65,7 +76,7 @@ function Home() {
           teachersResponse.ok ? teachersResponse.json() : null,
         ])
 
-        if (nextProfile) setProfile(nextProfile)
+        if (nextProfile) setProfile(normalizeProfile(nextProfile))
         if (Array.isArray(nextTeachers) && nextTeachers.length > 0) setTeachers(nextTeachers)
         setHomeData({
           achievements: nextAchievements || achievements,

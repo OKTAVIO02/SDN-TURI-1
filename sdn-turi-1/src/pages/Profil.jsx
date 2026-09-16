@@ -3,6 +3,16 @@ import CardGuru from '../components/CardGuru'
 import { schoolInfo } from '../data/schoolData'
 
 const apiBaseUrl = 'https://sdn1turi.my.id/api'
+const canonicalAddress = 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352'
+
+function normalizeProfile(profileData) {
+  return {
+    ...schoolInfo,
+    ...(profileData || {}),
+    name: 'SD Negeri Turi 1',
+    address: canonicalAddress,
+  }
+}
 
 function Profil() {
   const [profile, setProfile] = useState(schoolInfo)
@@ -22,7 +32,8 @@ function Profil() {
           throw new Error('Data guru tidak dapat dimuat.')
         }
 
-        setProfile(await profileResponse.json() || schoolInfo)
+        const nextProfile = await profileResponse.json() || schoolInfo
+        setProfile(normalizeProfile(nextProfile))
         setTeachers(await teachersResponse.json())
       } catch (requestError) {
         setError(requestError.message)

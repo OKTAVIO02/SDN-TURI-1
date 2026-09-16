@@ -52,7 +52,7 @@ SELECT 'Praktik baik', '08 Mei 2024', 'Kebiasaan kecil untuk sekolah yang lebih 
 WHERE (SELECT COUNT(*) FROM articles) = 2;
 
 INSERT INTO school_profile (name, npsn, address, phone, email, vision, mission, history, principal_welcome)
-SELECT 'SD Negeri Turi 1', '20401234', 'Jl. Pendidikan No. 1, Turi, Sleman, Yogyakarta', '(0274) 123456', 'info@sdnturi1.sch.id', 'Terwujudnya peserta didik yang berkarakter, berprestasi, dan peduli lingkungan.', 'Menyelenggarakan pembelajaran yang aktif, kreatif, dan menyenangkan.\nMenumbuhkan karakter berdasarkan nilai-nilai Pancasila.\nMengembangkan potensi akademik dan nonakademik setiap peserta didik.', 'SD Negeri Turi 1 hadir sebagai ruang belajar yang dekat dengan keluarga dan masyarakat.', 'Selamat datang di SD Negeri Turi 1. Mari bersama-sama mendampingi anak-anak tumbuh menjadi pribadi yang berkarakter, mandiri, dan berprestasi.'
+SELECT 'SD Negeri Turi 1', '20401234', 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352', '(0274) 123456', 'info@sdnturi1.sch.id', 'Terwujudnya peserta didik yang berkarakter, berprestasi, dan peduli lingkungan.', 'Menyelenggarakan pembelajaran yang aktif, kreatif, dan menyenangkan.\nMenumbuhkan karakter berdasarkan nilai-nilai Pancasila.\nMengembangkan potensi akademik dan nonakademik setiap peserta didik.', 'SD Negeri Turi 1 hadir sebagai ruang belajar yang dekat dengan keluarga dan masyarakat.', 'Selamat datang di SD Negeri Turi 1. Mari bersama-sama mendampingi anak-anak tumbuh menjadi pribadi yang berkarakter, mandiri, dan berprestasi.'
 WHERE NOT EXISTS (SELECT 1 FROM school_profile);
 
 UPDATE school_profile

@@ -6,10 +6,18 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/auth.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+$canonicalAddress = 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352';
 
 if ($method === 'GET') {
     $query = $pdo->query('SELECT id, name, npsn, address, phone, email, vision, mission, history, principal_welcome FROM school_profile ORDER BY id ASC LIMIT 1');
     $profile = $query->fetch();
+
+    if ($profile) {
+        if (strcasecmp(trim((string) $profile['name']), 'SD Negeri Turi 1') === 0) {
+            $profile['address'] = $canonicalAddress;
+        }
+    }
+
     echo json_encode($profile ?: null);
     exit;
 }
@@ -29,6 +37,10 @@ $values = [];
 
 foreach ($fields as $field) {
     $values[$field] = trim($payload[$field] ?? '');
+}
+
+if (strcasecmp(trim((string) $values['name']), 'SD Negeri Turi 1') === 0) {
+    $values['address'] = $canonicalAddress;
 }
 
 if ($values['name'] === '' || $values['npsn'] === '' || $values['address'] === '') {
