@@ -198,7 +198,7 @@ function Home() {
               <button className="carousel-button carousel-prev" type="button" onClick={() => setTeacherSlide((currentSlide) => Math.max(currentSlide - 1, 0))} aria-label="Guru sebelumnya">&larr;</button>
               <div className="teacher-viewport">
                 <div className="teacher-track" style={{ '--teacher-slide': teacherSlide }}>
-                  {teachers.map((teacher, index) => <CardGuru key={teacher.id || `${teacher.name}-${index}`} teacher={teacher} />)}
+                  {teachers.map((teacher, index) => <CardGuru key={teacher.id || `${teacher.name}-${index}`} teacher={teacher} isActive={index === teacherSlide + 1} />)}
                 </div>
               </div>
               <button className="carousel-button carousel-next" type="button" onClick={() => setTeacherSlide((currentSlide) => Math.min(currentSlide + 1, Math.max(teachers.length - 3, 0)))} aria-label="Guru berikutnya">&rarr;</button>

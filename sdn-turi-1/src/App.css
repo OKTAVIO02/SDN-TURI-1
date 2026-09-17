@@ -462,16 +462,17 @@ body { background: #f6f3ee; color: var(--ink-soft); }
 .accent-card { background: #f8f0e1; border-color: rgba(215, 176, 109, .5); }
 .avatar { background: #ead6ad; }
 .teacher-card { overflow: hidden; padding-top: 0; }
-.teacher-card { background: #163a4b; border: 0; border-radius: 2px; min-height: 280px; padding: 0; position: relative; }
-.teacher-photo { background: linear-gradient(145deg, #a5c1c5, #163a4b); display: block; height: 280px; object-fit: cover; width: 100%; }
+.teacher-card { background: #163a4b; border: 0; border-radius: 16px; min-height: 280px; padding: 0; position: relative; }
+.teacher-photo { background: linear-gradient(145deg, #a5c1c5, #163a4b); display: block; filter: grayscale(1) contrast(1.04); height: 280px; object-fit: cover; object-position: center 18%; width: 100%; }
 .teacher-photo-fallback { align-items: center; display: flex; justify-content: center; }
 .teacher-photo-fallback span { color: rgba(255,255,255,.78); font-family: Georgia, serif; font-size: 92px; }
 .teacher-card::after { background: linear-gradient(180deg, transparent 35%, rgba(10,25,36,.94) 100%); content: ''; inset: 0; pointer-events: none; position: absolute; }
-.teacher-card-copy { bottom: 0; color: #fff; left: 0; padding: 22px 20px 18px; position: absolute; right: 0; z-index: 1; }
-.teacher-card h3 { color: #fff; font-family: Georgia, serif; font-size: 18px; line-height: 1.15; margin: 0 0 5px; }
+.teacher-card-copy { backdrop-filter: blur(7px); background: linear-gradient(180deg, rgba(50, 57, 61, .58), rgba(27, 31, 34, .9)); border: 1px solid rgba(255,255,255,.18); border-radius: 10px; bottom: 10px; color: #fff; left: 10px; padding: 11px 13px 10px; position: absolute; right: 10px; z-index: 1; }
+.teacher-card h3 { color: #fff; font-family: Georgia, serif; font-size: 16px; line-height: 1.15; margin: 0 0 4px; }
 .teacher-card p, .teacher-card small { color: rgba(255,255,255,.82); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 11px; margin: 0; }
 .teacher-card small { color: #e9c890; margin-top: 3px; }
-.teacher-card:hover { box-shadow: 0 16px 28px rgba(18,59,87,.2); transform: translateY(-4px); }
+.teacher-card:hover, .teacher-card.is-active { box-shadow: 0 20px 34px rgba(18,59,87,.24); transform: translateY(-8px) scale(1.06); z-index: 2; }
+.teacher-card:hover .teacher-photo, .teacher-card.is-active .teacher-photo { filter: grayscale(.7) contrast(1.08); }
 .site-footer { background: var(--navy-deep); }
 .admin-shell { background: #f1f5f3; }
 .admin-sidebar { background: var(--ink); }
@@ -750,11 +751,11 @@ nav { gap: 8px; }
 .teacher-section .section-header h2 { color: var(--institution-navy); }
 .teacher-carousel { align-items: center; display: flex; gap: 18px; }
 .teacher-viewport { flex: 1; min-width: 0; overflow: hidden; }
-.teacher-track { display: flex; gap: 22px; transform: translateX(calc(var(--teacher-slide) * -33.333% - var(--teacher-slide) * 7.333px)); transition: transform 700ms cubic-bezier(.22, 1, .36, 1); }
-.teacher-track .teacher-card { animation: teacher-card-enter 700ms cubic-bezier(.22, 1, .36, 1) both; box-shadow: 0 14px 28px rgba(18,59,87,.14); flex: 0 0 calc((100% - 44px) / 3); min-height: 350px; overflow: hidden; position: relative; transition: box-shadow 240ms ease, transform 240ms ease, filter 240ms ease, opacity 240ms ease; }
+.teacher-track { display: flex; gap: 18px; transform: translateX(calc(var(--teacher-slide) * -222px)); transition: transform 700ms cubic-bezier(.22, 1, .36, 1); }
+.teacher-track .teacher-card { animation: teacher-card-enter 700ms cubic-bezier(.22, 1, .36, 1) both; box-shadow: 0 14px 28px rgba(18,59,87,.14); flex: 0 0 204px; min-height: 365px; overflow: hidden; position: relative; transition: box-shadow 240ms ease, transform 240ms ease, filter 240ms ease, opacity 240ms ease; }
 .teacher-track .teacher-card:hover { box-shadow: 0 20px 34px rgba(18,59,87,.22); filter: saturate(1.08); transform: translateY(-7px) scale(0.985); }
 .teacher-track .teacher-card:not(:hover) { opacity: 0.94; }
-.teacher-track .teacher-card .teacher-photo { height: 350px; transition: transform 260ms ease, filter 260ms ease; transform-origin: center; }
+.teacher-track .teacher-card .teacher-photo { height: 365px; transition: transform 260ms ease, filter 260ms ease; transform-origin: center; }
 .teacher-track .teacher-card:hover .teacher-photo { transform: scale(1.04); filter: contrast(1.06); }
 .carousel-button { align-items: center; background: #fff; border: 0; border-radius: 50%; box-shadow: 0 8px 20px rgba(18,59,87,.14); color: var(--institution-navy); cursor: pointer; display: flex; flex: 0 0 42px; font-size: 21px; height: 42px; justify-content: center; padding: 0; transition: background 180ms ease, color 180ms ease, transform 180ms ease; width: 42px; z-index: 1; }
 .carousel-button:hover { background: var(--institution-gold); transform: scale(1.08); }
@@ -779,8 +780,8 @@ nav { gap: 8px; }
   .welcome-card { padding: 30px 24px; }
   .teacher-section { padding: 75px 0 82px; }
   .teacher-carousel { gap: 8px; }
-  .teacher-track { transform: translateX(calc(var(--teacher-slide) * -100% - var(--teacher-slide) * 22px)); }
-  .teacher-track .teacher-card { flex-basis: 100%; min-height: 390px; }
-  .teacher-track .teacher-photo { height: 390px; }
+  .teacher-track { transform: translateX(calc(var(--teacher-slide) * -222px)); }
+  .teacher-track .teacher-card { flex-basis: min(82vw, 204px); min-height: 365px; }
+  .teacher-track .teacher-photo { height: 365px; }
   .carousel-button { flex-basis: 36px; height: 36px; width: 36px; }
 }
