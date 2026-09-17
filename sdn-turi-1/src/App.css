@@ -696,6 +696,20 @@ body { background: #f6f3ee; color: var(--ink-soft); }
 
 body { background: var(--institution-paper); color: #4b6472; }
 .site-header { background: rgba(255,255,255,.98); border-bottom: 4px solid var(--institution-gold); box-shadow: 0 8px 24px rgba(18,59,87,.08); }
+.intro-screen { align-items: center; background: radial-gradient(circle at 50% 42%, rgba(31,128,135,.42), transparent 32%), linear-gradient(135deg, #081f33 0%, #0d4960 58%, #0d777d 100%); display: flex; inset: 0; justify-content: center; opacity: 1; overflow: hidden; position: fixed; transition: opacity 650ms ease, visibility 650ms ease; z-index: 100; }
+.intro-screen::before { background: linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px), linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px); background-size: 32px 32px; content: ''; inset: 0; opacity: .28; position: absolute; }
+.intro-screen.is-leaving { opacity: 0; visibility: hidden; }
+.intro-content { align-items: center; display: flex; flex-direction: column; max-width: 720px; padding: 40px 24px; position: relative; text-align: center; z-index: 1; }
+.intro-logo { animation: intro-logo-in 1000ms cubic-bezier(.22,1,.36,1) both; filter: drop-shadow(0 22px 28px rgba(0,0,0,.3)); height: clamp(150px, 20vw, 220px); object-fit: contain; width: clamp(150px, 20vw, 220px); }
+.intro-kicker { animation: intro-text-up 700ms ease 260ms both; color: #f1cf7b; font-family: 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; margin: 30px 0 12px; text-transform: uppercase; }
+.intro-title { animation: intro-text-up 800ms cubic-bezier(.22,1,.36,1) 360ms both; color: #fff; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(42px, 6vw, 78px); letter-spacing: -2px; line-height: .98; margin: 0; }
+.intro-tagline { animation: intro-text-up 700ms ease 520ms both; color: rgba(255,255,255,.78); font-family: 'Trebuchet MS', sans-serif; font-size: clamp(14px, 2vw, 17px); letter-spacing: .15px; margin: 22px 0 0; }
+.intro-enter { animation: intro-text-up 700ms ease 680ms both; background: #e1b753; border: 1px solid rgba(255,255,255,.25); border-radius: 2px; box-shadow: 0 12px 25px rgba(0,0,0,.18); color: #0b3048; cursor: pointer; font-family: 'Trebuchet MS', sans-serif; font-size: 13px; font-weight: 700; margin-top: 32px; padding: 15px 20px; transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease; }
+.intro-enter span { margin-left: 13px; }
+.intro-enter:hover { background: #f0d487; box-shadow: 0 16px 30px rgba(0,0,0,.25); transform: translateY(-3px); }
+.intro-orbit { border: 1px solid rgba(255,255,255,.13); border-radius: 50%; height: 44vw; max-height: 600px; max-width: 600px; min-height: 300px; min-width: 300px; position: absolute; width: 44vw; }
+.intro-orbit-one { animation: intro-orbit-in 1200ms ease both; }
+.intro-orbit-two { animation: intro-orbit-in 1200ms ease 160ms both; height: 66vw; max-height: 900px; max-width: 900px; min-height: 450px; min-width: 450px; width: 66vw; }
 .navbar { min-height: 84px; }
 .brand { color: var(--institution-navy); gap: 13px; letter-spacing: .02em; }
 .brand-logo { height: 52px; width: 52px; }
@@ -768,7 +782,11 @@ nav { gap: 8px; }
 
 @keyframes hero-slide-in { from { opacity: 0; transform: translateX(-58px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes teacher-card-enter { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-@media (prefers-reduced-motion: reduce) { .hero-stagger, .scroll-reveal { animation: none; opacity: 1; transform: none; transition: none; } }
+@keyframes intro-logo-in { from { opacity: 0; transform: scale(.72) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes intro-text-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes intro-orbit-in { from { opacity: 0; transform: scale(.84); } to { opacity: 1; transform: scale(1); } }
+@media (max-width: 600px) { .intro-title { letter-spacing: -1px; }.intro-tagline { line-height: 1.6; max-width: 280px; }.intro-orbit { min-height: 260px; min-width: 260px; }.intro-orbit-two { min-height: 390px; min-width: 390px; } }
+@media (prefers-reduced-motion: reduce) { .intro-screen { transition: none; } .intro-screen.is-leaving { opacity: 0; visibility: hidden; } .intro-logo, .intro-kicker, .intro-title, .intro-tagline, .intro-enter, .intro-orbit { animation: none; opacity: 1; transform: none; } .hero-stagger, .scroll-reveal { animation: none; opacity: 1; transform: none; transition: none; } }
 
 @media (max-width: 700px) {
   .navbar { min-height: 70px; padding-top: 0; }
@@ -785,3 +803,4 @@ nav { gap: 8px; }
   .teacher-track .teacher-photo { height: 365px; }
   .carousel-button { flex-basis: 36px; height: 36px; width: 36px; }
 }
+

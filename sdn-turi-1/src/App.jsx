@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -9,23 +9,21 @@ import Fasilitas from './pages/Fasilitas'
 import Artikel from './pages/Artikel'
 import Admin from './pages/Admin'
 import AdminLogin from './pages/AdminLogin'
+import Landing from './pages/Landing'
 import './App.css'
 
 function App() {
   const [showIntro, setShowIntro] = useState(true)
+  const [isLeavingIntro, setIsLeavingIntro] = useState(false)
 
-  useEffect(() => {
-    const introTimer = window.setTimeout(() => setShowIntro(false), 1800)
-    return () => window.clearTimeout(introTimer)
-  }, [])
+  function enterWebsite() {
+    setIsLeavingIntro(true)
+    window.setTimeout(() => setShowIntro(false), 650)
+  }
 
   return (
     <BrowserRouter>
-      {showIntro && (
-        <div className="intro-screen" aria-label="Memuat SD Negeri Turi 1">
-          <img className="intro-logo" src="/logo%20sdn.svg" alt="Logo SD Negeri Turi 1" />
-        </div>
-      )}
+      {showIntro && <Landing onEnter={enterWebsite} leaving={isLeavingIntro} />}
       <AppRoutes />
     </BrowserRouter>
   )
