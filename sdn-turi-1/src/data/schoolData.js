@@ -15,9 +15,9 @@ export const schoolInfo = {
 }
 
 export const teachers = [
-  { name: 'Siti Aminah, S.Pd.', role: 'Kepala Sekolah', subject: 'Manajemen Pendidikan' },
-  { name: 'Budi Santoso, S.Pd.', role: 'Guru Kelas V', subject: 'Tematik' },
-  { name: 'Rina Lestari, S.Pd.', role: 'Guru Kelas III', subject: 'Tematik' },
+  { id: 'fallback-1', name: 'Sri Hartini, S.Pd', role: 'Guru', subject: 'Matematika', photo_url: 'https://sdn1turi.my.id/uploads/teachers/teacher-ad61385612fd38f2.jpg' },
+  { id: 'fallback-2', name: 'Eka Purnamawati, S.Pd', role: 'Guru', subject: 'Agama Islam', photo_url: 'https://sdn1turi.my.id/uploads/teachers/teacher-1c6aa961c6a7ffc4.jpg' },
+  { id: 'fallback-3', name: 'Ernawati, S.Pd', role: 'Guru', subject: 'Bahasa Indonesia', photo_url: 'https://sdn1turi.my.id/uploads/teachers/teacher-3b84bdf7bbdd5c7d.jpg' },
 ]
 
 export const extracurriculars = ['Pramuka', 'Seni Tari', 'Futsal', 'Hadroh', 'Sains Club']
