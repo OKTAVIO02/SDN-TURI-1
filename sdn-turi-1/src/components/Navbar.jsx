@@ -7,6 +7,8 @@ const links = [
   { to: '/akademik', label: 'Akademik' },
   { to: '/fasilitas', label: 'Fasilitas' },
   { to: '/artikel', label: 'Artikel' },
+  { to: '/galeri', label: 'Galeri' },
+  { to: '/kontak', label: 'Kontak' },
 ]
 
 function Navbar() {

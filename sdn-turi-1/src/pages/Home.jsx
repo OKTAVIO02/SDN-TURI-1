@@ -25,6 +25,11 @@ const articleCards = [
 ]
 
 const canonicalAddress = 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352'
+const mediaBaseUrl = 'https://sdn1turi.my.id'
+
+function getMediaSource(mediaUrl) {
+  return mediaUrl?.startsWith('http') ? mediaUrl : `${mediaBaseUrl}${mediaUrl}`
+}
 
 function normalizeProfile(profileData) {
   return {
@@ -38,6 +43,8 @@ function normalizeProfile(profileData) {
 function Home() {
   const [profile, setProfile] = useState(schoolInfo)
   const [teachers, setTeachers] = useState(defaultTeachers)
+  const [gallery, setGallery] = useState([])
+  const [contacts, setContacts] = useState([])
   const [teacherSlide, setTeacherSlide] = useState(0)
   const [, setHomeData] = useState({ achievements, extracurriculars, facilities })
 
@@ -66,18 +73,24 @@ function Home() {
       fetch('https://sdn1turi.my.id/api/extracurriculars.php'),
       fetch('https://sdn1turi.my.id/api/facilities.php'),
       fetch('https://sdn1turi.my.id/api/teachers.php'),
+      fetch('https://sdn1turi.my.id/api/gallery.php'),
+      fetch('https://sdn1turi.my.id/api/contacts.php'),
     ])
-      .then(async ([profileResponse, achievementsResponse, extracurricularResponse, facilitiesResponse, teachersResponse]) => {
-        const [nextProfile, nextAchievements, nextExtracurriculars, nextFacilities, nextTeachers] = await Promise.all([
+      .then(async ([profileResponse, achievementsResponse, extracurricularResponse, facilitiesResponse, teachersResponse, galleryResponse, contactsResponse]) => {
+        const [nextProfile, nextAchievements, nextExtracurriculars, nextFacilities, nextTeachers, nextGallery, nextContacts] = await Promise.all([
           profileResponse.ok ? profileResponse.json() : null,
           achievementsResponse.ok ? achievementsResponse.json() : null,
           extracurricularResponse.ok ? extracurricularResponse.json() : null,
           facilitiesResponse.ok ? facilitiesResponse.json() : null,
           teachersResponse.ok ? teachersResponse.json() : null,
+          galleryResponse.ok ? galleryResponse.json() : null,
+          contactsResponse.ok ? contactsResponse.json() : null,
         ])
 
         if (nextProfile) setProfile(normalizeProfile(nextProfile))
         if (Array.isArray(nextTeachers) && nextTeachers.length > 0) setTeachers(nextTeachers)
+        if (Array.isArray(nextGallery)) setGallery(nextGallery)
+        if (Array.isArray(nextContacts)) setContacts(nextContacts)
         setHomeData({
           achievements: nextAchievements || achievements,
           extracurriculars: nextExtracurriculars || extracurriculars,
@@ -192,6 +205,23 @@ function Home() {
           </div>
         </section>
 
+        <section className="container home-section home-gallery-section scroll-reveal">
+          <div className="section-header center">
+            <p className="eyebrow">Dokumentasi Sekolah</p>
+            <h2>Momen yang kami abadikan</h2>
+          </div>
+
+          {gallery.length > 0 ? <>
+            <div className="gallery-grid home-gallery-grid">
+              {gallery.slice(0, 4).map((item) => <article className="gallery-card" key={item.id}>
+                {item.media_type === 'video' ? <video className="gallery-media" controls preload="metadata"><source src={getMediaSource(item.media_url)} /></video> : <img className="gallery-media" src={getMediaSource(item.media_url)} alt={item.title} />}
+                <div className="gallery-card-copy"><span>{item.media_type === 'video' ? 'Video' : 'Foto'}</span><h2>{item.title}</h2></div>
+              </article>)}
+            </div>
+            <Link className="teacher-more-link gallery-more-link" to="/galeri">Lihat semua galeri <span>-&gt;</span></Link>
+          </> : <p className="lead gallery-empty">Dokumentasi sekolah akan segera hadir.</p>}
+        </section>
+
         <section className="teacher-section scroll-reveal">
           <div className="container teacher-section-wrap">
             <div className="section-header center">
@@ -216,17 +246,12 @@ function Home() {
           </div>
         </section>
 
-        <section className="container home-section contact-section scroll-reveal">
+        <section id="kontak" className="container home-section contact-section scroll-reveal">
           <div className="contact-panel">
             <div className="contact-copy">
               <p className="eyebrow">Informasi Kontak</p>
-              <h3>Alamat</h3>
-              <p>{profile.address || schoolInfo.address}</p>
-              <h3>Telepon</h3>
-              <p>{profile.phone || schoolInfo.phone}</p>
-              <h3>Email</h3>
-              <p>{profile.email || schoolInfo.email}</p>
-              <a className="button ghost-button" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${profile.name || schoolInfo.name}, ${profile.address || schoolInfo.address}`)}`} target="_blank" rel="noreferrer">Lihat di Google Maps</a>
+              {(contacts.length > 0 ? contacts : [{ label: 'Alamat', value: profile.address || schoolInfo.address }, { label: 'Telepon', value: profile.phone || schoolInfo.phone }, { label: 'Email', value: profile.email || schoolInfo.email }]).map((contact) => <div key={contact.id || contact.label}><h3>{contact.label}</h3>{contact.link_url ? <a href={contact.link_url} target={contact.link_url.startsWith('http') ? '_blank' : undefined} rel={contact.link_url.startsWith('http') ? 'noreferrer' : undefined}>{contact.value}</a> : <p>{contact.value}</p>}</div>)}
+              <a className="button ghost-button" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${profile.name || schoolInfo.name}, ${(contacts.find((contact) => contact.label.toLowerCase().includes('alamat'))?.value || profile.address || schoolInfo.address)}`)}`} target="_blank" rel="noreferrer">Lihat di Google Maps</a>
             </div>
             <div className="map-box" aria-label="Peta lokasi sekolah">
               <iframe

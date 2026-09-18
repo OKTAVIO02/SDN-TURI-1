@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -7,9 +7,11 @@ import Profil from './pages/Profil'
 import Akademik from './pages/Akademik'
 import Fasilitas from './pages/Fasilitas'
 import Artikel from './pages/Artikel'
+import Galeri from './pages/Galeri'
 import Admin from './pages/Admin'
 import AdminLogin from './pages/AdminLogin'
 import Landing from './pages/Landing'
+import Kontak from './pages/Kontak'
 import './App.css'
 
 function App() {
@@ -30,8 +32,15 @@ function App() {
 }
 
 function AppRoutes() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const isAdminPage = pathname === '/admin' || pathname === '/admin/login'
+
+  useEffect(() => {
+    if (!hash) return
+    window.requestAnimationFrame(() => {
+      document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [hash, pathname])
 
   return <>
     {!isAdminPage && <Navbar />}
@@ -42,6 +51,8 @@ function AppRoutes() {
         <Route path="/akademik" element={<Akademik />} />
         <Route path="/fasilitas" element={<Fasilitas />} />
         <Route path="/artikel" element={<Artikel />} />
+        <Route path="/galeri" element={<Galeri />} />
+        <Route path="/kontak" element={<Kontak />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/login" element={<AdminLogin />} />
       </Routes>

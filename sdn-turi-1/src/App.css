@@ -320,6 +320,7 @@ li { margin: 12px 0; }
 .fact-label { color: var(--institution-teal); display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.8px; margin-bottom: 10px; text-transform: uppercase; }
 .fact-panel-card strong { display: block; color: var(--institution-navy); font-size: 2rem; line-height: 1.1; margin-bottom: 10px; }
 .fact-panel-card p { color: #334d5b; font-size: 0.95rem; line-height: 1.7; margin: 0; }
+.fact-panel-card.soft p { font-family: 'Trebuchet MS', sans-serif; font-size: 15px; line-height: 1.85; text-align: justify; }
 .teacher-section-header { margin-top: 48px; margin-bottom: 18px; }
 .teacher-section-header h2 { margin: 0; }
 
@@ -1087,6 +1088,17 @@ nav { gap: 8px; }
 @media (max-width: 600px) { .intro-title { letter-spacing: -1px; }.intro-tagline { line-height: 1.6; max-width: 280px; }.intro-orbit { min-height: 260px; min-width: 260px; }.intro-orbit-two { min-height: 390px; min-width: 390px; } }
 @media (prefers-reduced-motion: reduce) { .intro-screen { transition: none; } .intro-screen.is-leaving { opacity: 0; visibility: hidden; } .intro-logo, .intro-kicker, .intro-title, .intro-tagline, .intro-enter, .intro-orbit { animation: none; opacity: 1; transform: none; } .hero-stagger, .scroll-reveal { animation: none; opacity: 1; transform: none; transition: none; } }
 
+.gallery-page .page-heading { max-width: 760px; }
+.gallery-grid { display: grid; gap: 24px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gallery-card { background: rgba(255,255,255,.86); border: 1px solid var(--institution-line); box-shadow: 0 16px 32px rgba(18,59,87,.1); overflow: hidden; }
+.gallery-media { aspect-ratio: 4 / 3; background: #dcebed; display: block; object-fit: cover; width: 100%; }
+.gallery-card-copy { padding: 22px; }
+.gallery-card-copy > span { color: var(--institution-teal); font-family: 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.gallery-card-copy h2 { font-size: 25px; margin: 12px 0 8px; }
+.gallery-card-copy p { color: var(--ink-soft); font-family: 'Trebuchet MS', sans-serif; line-height: 1.65; margin: 0; }
+@media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .gallery-grid { grid-template-columns: 1fr; } }
+
 @media (max-width: 700px) {
   .navbar { min-height: 70px; padding-top: 0; }
   .brand-logo { height: 42px; width: 42px; }
@@ -1516,4 +1528,25 @@ body {
   text-decoration-thickness: 3px;
   text-underline-offset: 8px;
 }
+
+.contact-page { padding-bottom: 96px; padding-top: 76px; }
+.contact-page-heading { margin: 0 auto 46px; max-width: 720px; text-align: center; }
+.contact-page-heading .lead { margin-left: auto; margin-right: auto; }
+.contact-layout { align-items: start; display: grid; gap: 28px; grid-template-columns: 1fr 1fr; margin: 0 auto; max-width: 940px; }
+.contact-list { display: grid; gap: 18px; }
+.contact-card { align-items: center; background: rgba(255,255,255,.88); border: 1px solid var(--institution-line); border-radius: 12px; box-shadow: 0 12px 26px rgba(18,59,87,.08); display: flex; gap: 16px; min-height: 92px; padding: 18px 20px; }
+.contact-card-icon { align-items: center; background: #eef6ff; border-radius: 10px; color: #1671ef; display: flex; flex: 0 0 42px; font-size: 22px; height: 42px; justify-content: center; }
+.contact-card-label { color: var(--institution-teal); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1.4px; margin-bottom: 6px; text-transform: uppercase; }
+.contact-card p, .contact-card a { color: var(--ink); font-family: 'Trebuchet MS', sans-serif; font-size: 14px; line-height: 1.55; margin: 0; text-decoration: none; }
+.contact-card a:hover { color: var(--institution-teal); }
+.contact-form { background: rgba(255,255,255,.9); border: 1px solid var(--institution-line); border-radius: 12px; box-shadow: 0 16px 32px rgba(18,59,87,.1); padding: 28px; }
+.contact-form h2 { font-size: 32px; margin: 0 0 24px; }
+.contact-form label { color: var(--ink); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 12px; margin-bottom: 16px; }
+.contact-form input, .contact-form textarea { background: #f7fafc; border: 1px solid #dce6ee; border-radius: 7px; color: var(--ink); display: block; font: inherit; margin-top: 7px; padding: 12px 13px; width: 100%; }
+.contact-form textarea { min-height: 125px; resize: vertical; }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--institution-teal); outline: 2px solid rgba(107,171,183,.18); }
+.contact-form .button { border: 0; cursor: pointer; margin-top: 2px; }
+.contact-form-status { color: var(--institution-teal); font-family: 'Trebuchet MS', sans-serif; font-size: 13px; margin: 16px 0 0; }
+.contact-form-error { color: #c94d4d; font-family: 'Trebuchet MS', sans-serif; font-size: 13px; margin: 16px 0 0; }
+@media (max-width: 760px) { .contact-layout { grid-template-columns: 1fr; } .contact-page-heading { text-align: left; } }
 

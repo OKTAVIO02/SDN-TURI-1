@@ -14,7 +14,7 @@ export const schoolInfo = {
     '5. MENUMBUHKEMBANGKAN SEMANGAT BELAJAR UNTUK MERAIH PRESTASI',
     '6. MELAKUKAN PEMBAHARUAN DALAM MEMAJUKAN SEKOLAH',
   ],
-  history: 'SD Negeri Turi 1 hadir sebagai ruang belajar yang dekat dengan keluarga dan masyarakat. Dengan semangat gotong royong, sekolah terus bertumbuh menghadirkan pembelajaran yang relevan bagi generasi masa depan.',
+  history: 'Ditinjau dari letak geografis, Desa Turi khususnya di SD Negeri Turi 1 dekat dengan pegunungan. Letak geografis tersebut membentuk latar belakang sosial yang beragam. Masyarakat yang tinggal dekat persawahan mayoritas memiliki mata pencaharian sebagai petani, sedangkan masyarakat yang tinggal di pusat kecamatan sebagian besar bekerja di kantor swasta atau pemerintahan. Kondisi ini membentuk karakteristik murid yang beragam, baik dalam kemampuan kognitif maupun psikomotor. Mayoritas murid beragama Islam, namun tetap menghargai keragaman agama dan keyakinan. Desa Turi memiliki latar sosial budaya yang beragam dan diperkaya kebudayaan yang melekat sejak dahulu, termasuk banyaknya pondok pesantren yang menjadi kearifan lokal Kabupaten Magetan. Keragaman budaya serta letak geografis tersebut juga dapat menarik wisatawan asing untuk datang ke Desa Turi.',
 }
 
 export const teachers = [

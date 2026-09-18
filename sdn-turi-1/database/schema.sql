@@ -39,6 +39,34 @@ CREATE TABLE IF NOT EXISTS articles (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS gallery (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  media_type ENUM('image', 'video') NOT NULL,
+  media_url VARCHAR(500) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contacts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  label VARCHAR(100) NOT NULL,
+  value TEXT NOT NULL,
+  link_url VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(180) NOT NULL,
+  message TEXT NOT NULL,
+  is_read TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO articles (category, article_date, title, excerpt, tone)
 SELECT 'Kabar sekolah', '12 Juni 2024', 'Belajar dari lingkungan sekitar lewat Taman Belajar', 'Ruang terbuka sekolah menjadi tempat anak mengamati, berdiskusi, dan menemukan cara baru untuk belajar bersama.', 'mint'
 WHERE NOT EXISTS (SELECT 1 FROM articles);
@@ -52,7 +80,7 @@ SELECT 'Praktik baik', '08 Mei 2024', 'Kebiasaan kecil untuk sekolah yang lebih 
 WHERE (SELECT COUNT(*) FROM articles) = 2;
 
 INSERT INTO school_profile (name, npsn, address, phone, email, vision, mission, history, principal_welcome)
-SELECT 'SD Negeri Turi 1', '20401234', 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352', '(0274) 123456', 'info@sdnturi1.sch.id', 'Terwujudnya peserta didik yang berkarakter, berprestasi, dan peduli lingkungan.', 'Menyelenggarakan pembelajaran yang aktif, kreatif, dan menyenangkan.\nMenumbuhkan karakter berdasarkan nilai-nilai Pancasila.\nMengembangkan potensi akademik dan nonakademik setiap peserta didik.', 'SD Negeri Turi 1 hadir sebagai ruang belajar yang dekat dengan keluarga dan masyarakat.', 'Selamat datang di SD Negeri Turi 1. Mari bersama-sama mendampingi anak-anak tumbuh menjadi pribadi yang berkarakter, mandiri, dan berprestasi.'
+SELECT 'SD Negeri Turi 1', '20401234', 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352', '(0274) 123456', 'info@sdnturi1.sch.id', 'Terwujudnya peserta didik yang berkarakter, berprestasi, dan peduli lingkungan.', 'Menyelenggarakan pembelajaran yang aktif, kreatif, dan menyenangkan.\nMenumbuhkan karakter berdasarkan nilai-nilai Pancasila.\nMengembangkan potensi akademik dan nonakademik setiap peserta didik.', 'Ditinjau dari letak geografis, Desa Turi khususnya di SD Negeri Turi 1 dekat dengan pegunungan. Letak geografis tersebut membentuk latar belakang sosial yang beragam. Masyarakat yang tinggal dekat persawahan mayoritas memiliki mata pencaharian sebagai petani, sedangkan masyarakat yang tinggal di pusat kecamatan sebagian besar bekerja di kantor swasta atau pemerintahan. Kondisi ini membentuk karakteristik murid yang beragam, baik dalam kemampuan kognitif maupun psikomotor. Mayoritas murid beragama Islam, namun tetap menghargai keragaman agama dan keyakinan. Desa Turi memiliki latar sosial budaya yang beragam dan diperkaya kebudayaan yang melekat sejak dahulu, termasuk banyaknya pondok pesantren yang menjadi kearifan lokal Kabupaten Magetan. Keragaman budaya serta letak geografis tersebut juga dapat menarik wisatawan asing untuk datang ke Desa Turi.', 'Selamat datang di SD Negeri Turi 1. Mari bersama-sama mendampingi anak-anak tumbuh menjadi pribadi yang berkarakter, mandiri, dan berprestasi.'
 WHERE NOT EXISTS (SELECT 1 FROM school_profile);
 
 UPDATE school_profile
