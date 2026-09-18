@@ -5,11 +5,14 @@ export const schoolInfo = {
   phone: '(0274) 123456',
   email: 'info@sdnturi1.sch.id',
   npsn: '20401234',
-  vision: 'Terwujudnya peserta didik yang berkarakter, berprestasi, dan peduli lingkungan.',
+  vision: '"TERCIPTANYA GENERASI CENDEKIA, TERAMPIL, UNGGUL, RELIGIUS DAN INOVATIF"',
   mission: [
-    'Menyelenggarakan pembelajaran yang aktif, kreatif, dan menyenangkan.',
-    'Menumbuhkan karakter berdasarkan nilai-nilai Pancasila.',
-    'Mengembangkan potensi akademik dan nonakademik setiap peserta didik.',
+    '1. MENINGKATKAN KETAQWAAN TERHADAP TUHAN YANG MAHA ESA',
+    '2. MENINGKATKAN KECERDASAN WARGA SEKOLAH YANG AKTIF, KREATIF DAN INOVATIF',
+    '3. MENINGKATKAN KREATIFITAS DALAM PEMBELAJARAN DI SEKOLAH',
+    '4. MENUMBUHKAN SIKAP TOLERANSI DAN RASA TANGGUNG JAWAB',
+    '5. MENUMBUHKEMBANGKAN SEMANGAT BELAJAR UNTUK MERAIH PRESTASI',
+    '6. MELAKUKAN PEMBAHARUAN DALAM MEMAJUKAN SEKOLAH',
   ],
   history: 'SD Negeri Turi 1 hadir sebagai ruang belajar yang dekat dengan keluarga dan masyarakat. Dengan semangat gotong royong, sekolah terus bertumbuh menghadirkan pembelajaran yang relevan bagi generasi masa depan.',
 }

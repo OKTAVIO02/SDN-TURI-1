@@ -214,9 +214,74 @@ h3 { color: #123d52; margin: 10px 0 6px; }
 .two-column { display: grid; grid-template-columns: 1.15fr .85fr; gap: 80px; }
 .two-column p, li, .info-card p { color: #58717c; line-height: 1.7; }
 li { margin: 12px 0; }
+.profile-vision-panel { display: grid; gap: 24px; }
+.vision-box, .mission-box { background: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.38); border-radius: 22px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.42), 0 18px 38px rgba(18,59,87,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 24px 26px; }
+.section-kicker { color: var(--institution-teal); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; text-transform: uppercase; }
+.vision-box h2, .mission-box h2 { margin: 0 0 14px; }
+.vision-box p { color: #1d3d4d; font-family: 'Trebuchet MS', sans-serif; font-size: 1.02rem; font-weight: 700; line-height: 1.6; margin: 0; }
+.mission-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.mission-card { align-items: flex-start; background: linear-gradient(135deg, rgba(255,255,255,0.38), rgba(233,246,246,0.46)); border: 1px solid rgba(255,255,255,0.35); border-left: 5px solid var(--institution-teal); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 10px 22px rgba(18,59,87,0.06); display: flex; gap: 12px; padding: 14px 14px 14px 12px; }
+.mission-index { align-items: center; background: linear-gradient(135deg, var(--institution-teal), var(--institution-navy)); border-radius: 10px; color: #fff; display: inline-flex; flex: 0 0 34px; font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; font-weight: 700; height: 34px; justify-content: center; min-width: 34px; box-shadow: 0 8px 14px rgba(27, 88, 92, 0.18); }
+.mission-card p { color: #1d3d4d; font-family: 'Trebuchet MS', sans-serif; font-size: 0.9rem; font-weight: 600; line-height: 1.45; margin: 0; }
 .fact-panel { display: flex; flex-direction: column; gap: 12px; }
 .fact-panel strong { color: #123d52; font-size: 42px; font-family: Georgia, serif; margin-bottom: 20px; }
-.card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+}
+.card-grid .teacher-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-radius: 18px;
+  box-shadow: none;
+  position: relative;
+}
+.card-grid .teacher-card .teacher-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+  object-position: center top;
+  background: #d9d9d9;
+  border-radius: 18px;
+}
+.card-grid .teacher-card .teacher-card-copy {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1;
+  padding: 12px 14px 10px;
+  background: rgba(17, 23, 27, 0.28);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 24px rgba(0,0,0,0.12);
+}
+.card-grid .teacher-card h3 {
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+.card-grid .teacher-card p,
+.card-grid .teacher-card small {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.82rem;
+  margin: 0;
+}
+.card-grid .teacher-card small {
+  display: block;
+  margin-top: 6px;
+  color: #e9c890;
+}
 .info-card { background: #fff; border: 1px solid #dce8eb; border-radius: 8px; padding: 24px; min-height: 126px; box-sizing: border-box; }
 .info-card small { color: #e06c35; font-weight: 700; }
 .avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #f9d7b4; color: #123d52; font-weight: 700; }
@@ -462,17 +527,31 @@ body { background: #f6f3ee; color: var(--ink-soft); }
 .accent-card { background: #f8f0e1; border-color: rgba(215, 176, 109, .5); }
 .avatar { background: #ead6ad; }
 .teacher-card { overflow: hidden; padding-top: 0; }
-.teacher-card { background: #163a4b; border: 0; border-radius: 16px; min-height: 280px; padding: 0; position: relative; }
-.teacher-photo { background: linear-gradient(145deg, #a5c1c5, #163a4b); display: block; filter: grayscale(1) contrast(1.04); height: 280px; object-fit: cover; object-position: center 18%; width: 100%; }
+.teacher-card { background: transparent; border: 0; border-radius: 18px; min-height: 280px; padding: 0; position: relative; }
+.teacher-photo { background: transparent; display: block; filter: none; -webkit-filter: none; height: 280px; object-fit: cover; object-position: center 18%; width: 100%; border-radius: 18px; }
 .teacher-photo-fallback { align-items: center; display: flex; justify-content: center; }
 .teacher-photo-fallback span { color: rgba(255,255,255,.78); font-family: Georgia, serif; font-size: 92px; }
-.teacher-card::after { background: linear-gradient(180deg, transparent 35%, rgba(10,25,36,.94) 100%); content: ''; inset: 0; pointer-events: none; position: absolute; }
-.teacher-card-copy { backdrop-filter: blur(7px); background: linear-gradient(180deg, rgba(50, 57, 61, .58), rgba(27, 31, 34, .9)); border: 1px solid rgba(255,255,255,.18); border-radius: 10px; bottom: 10px; color: #fff; left: 10px; padding: 11px 13px 10px; position: absolute; right: 10px; z-index: 1; }
+.teacher-card::after { display: none; }
+.teacher-card-copy {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1;
+  padding: 12px 14px 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 12px;
+  background: rgba(17, 23, 27, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 24px rgba(0,0,0,0.12);
+  color: #fff;
+}
 .teacher-card h3 { color: #fff; font-family: Georgia, serif; font-size: 16px; line-height: 1.15; margin: 0 0 4px; }
 .teacher-card p, .teacher-card small { color: rgba(255,255,255,.82); display: block; font-family: 'Trebuchet MS', sans-serif; font-size: 11px; margin: 0; }
 .teacher-card small { color: #e9c890; margin-top: 3px; }
 .teacher-card:hover, .teacher-card.is-active { box-shadow: 0 20px 34px rgba(18,59,87,.24); transform: translateY(-8px) scale(1.06); z-index: 2; }
-.teacher-card:hover .teacher-photo, .teacher-card.is-active .teacher-photo { filter: grayscale(.7) contrast(1.08); }
+.teacher-card:hover .teacher-photo, .teacher-card.is-active .teacher-photo { filter: none; }
 .site-footer { background: var(--navy-deep); }
 .admin-shell { background: #f1f5f3; }
 .admin-sidebar { background: var(--ink); }
@@ -766,11 +845,11 @@ nav { gap: 8px; }
 .teacher-carousel { align-items: center; display: flex; gap: 18px; }
 .teacher-viewport { flex: 1; min-width: 0; overflow: hidden; }
 .teacher-track { display: flex; gap: 18px; transform: translateX(calc(var(--teacher-slide) * -222px)); transition: transform 700ms cubic-bezier(.22, 1, .36, 1); }
-.teacher-track .teacher-card { animation: teacher-card-enter 700ms cubic-bezier(.22, 1, .36, 1) both; box-shadow: 0 14px 28px rgba(18,59,87,.14); flex: 0 0 204px; min-height: 365px; overflow: hidden; position: relative; transition: box-shadow 240ms ease, transform 240ms ease, filter 240ms ease, opacity 240ms ease; }
-.teacher-track .teacher-card:hover { box-shadow: 0 20px 34px rgba(18,59,87,.22); filter: saturate(1.08); transform: translateY(-7px) scale(0.985); }
+.teacher-track .teacher-card { animation: teacher-card-enter 700ms cubic-bezier(.22, 1, .36, 1) both; box-shadow: 0 14px 28px rgba(18,59,87,.14); flex: 0 0 204px; min-height: 365px; overflow: hidden; position: relative; transition: box-shadow 260ms ease, transform 260ms ease, filter 260ms ease, opacity 260ms ease, border-color 260ms ease; border: 1px solid rgba(18,59,87,.04); }
+.teacher-track .teacher-card:hover { box-shadow: 0 22px 42px rgba(18,59,87,.2); filter: saturate(1.18) brightness(1.03); transform: translateY(-10px) scale(1.04); border-color: rgba(226, 174, 85, 0.9); }
 .teacher-track .teacher-card:not(:hover) { opacity: 0.94; }
-.teacher-track .teacher-card .teacher-photo { height: 365px; transition: transform 260ms ease, filter 260ms ease; transform-origin: center; }
-.teacher-track .teacher-card:hover .teacher-photo { transform: scale(1.04); filter: contrast(1.06); }
+.teacher-track .teacher-card .teacher-photo { height: 365px; transition: transform 260ms ease, filter 260ms ease, brightness 260ms ease; transform-origin: center; }
+.teacher-track .teacher-card:hover .teacher-photo { transform: scale(1.06); filter: contrast(1.12) saturate(1.1) brightness(1.04); }
 .carousel-button { align-items: center; background: #fff; border: 0; border-radius: 50%; box-shadow: 0 8px 20px rgba(18,59,87,.14); color: var(--institution-navy); cursor: pointer; display: flex; flex: 0 0 42px; font-size: 21px; height: 42px; justify-content: center; padding: 0; transition: background 180ms ease, color 180ms ease, transform 180ms ease; width: 42px; z-index: 1; }
 .carousel-button:hover { background: var(--institution-gold); transform: scale(1.08); }
 .carousel-button:disabled { cursor: default; opacity: .45; }
