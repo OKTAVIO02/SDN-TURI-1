@@ -7,8 +7,8 @@ const canonicalAddress = 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupat
 
 function normalizeProfile(profileData) {
   return {
-    ...schoolInfo,
     ...(profileData || {}),
+    ...schoolInfo,
     name: 'SD Negeri Turi 1',
     address: canonicalAddress,
   }
@@ -49,7 +49,63 @@ function Profil() {
     ? profile.mission.filter(Boolean)
     : profile.mission?.split('\n').filter(Boolean) || schoolInfo.mission
 
-  return <section className="container page"><div className="page-heading"><p className="eyebrow">TENTANG KAMI</p><h1>Profil sekolah</h1><p className="lead">Mengenal identitas, perjalanan, dan orang-orang yang membuat {profile.name} terus bertumbuh.</p></div><div className="two-column"><article className="profile-vision-panel"><div className="vision-box"><span className="section-kicker">VISI</span><h2>Visi</h2><p>{profile.vision}</p></div><div className="mission-box"><span className="section-kicker">MISI</span><div className="mission-grid">{mission.map((item, index) => <div className="mission-card" key={`${item}-${index}`}><span className="mission-index">{index + 1}</span><p>{item.replace(/^\d+\.\s*/, '')}</p></div>)}</div></div></article><aside className="fact-panel"><span>NPSN</span><strong>{profile.npsn}</strong><span>BERDIRI DAN BERTUMBUH</span><p>{profile.history}</p></aside></div><h2>Guru dan staf</h2>{isLoading && <p className="lead">Memuat data guru...</p>}{error && <p className="lead">{error}</p>}{!isLoading && !error && <div className="card-grid">{teachers.map((teacher) => <CardGuru key={teacher.id} teacher={teacher} />)}</div>}</section>
+  return (
+    <section className="container page profile-page">
+      <div className="profile-hero-panel">
+        <div className="profile-hero-copy">
+          <p className="eyebrow">TENTANG KAMI</p>
+          <h1>Profil sekolah</h1>
+          <p className="lead">Mengenal identitas, perjalanan, dan orang-orang yang membuat {profile.name} terus bertumbuh.</p>
+        </div>
+        <div className="profile-mini-stat">
+          <span>NPSN</span>
+          <strong>{profile.npsn}</strong>
+        </div>
+      </div>
+
+      <div className="profile-layout">
+        <article className="profile-vision-panel">
+          <div className="vision-box">
+            <span className="section-kicker">VISI</span>
+            <h2>Visi</h2>
+            <p>{profile.vision}</p>
+          </div>
+
+          <div className="mission-box">
+            <span className="section-kicker">MISI</span>
+            <div className="mission-grid">
+              {mission.map((item, index) => (
+                <div className="mission-card" key={`${item}-${index}`}>
+                  <span className="mission-index">{index + 1}</span>
+                  <p>{item.replace(/^\d+\.\s*/, '')}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <aside className="fact-panel">
+          <div className="fact-panel-card">
+            <span className="fact-label">Sekolah</span>
+            <strong>{profile.name}</strong>
+            <p>{profile.address}</p>
+          </div>
+          <div className="fact-panel-card soft">
+            <span className="fact-label">Sejarah</span>
+            <p>{profile.history}</p>
+          </div>
+        </aside>
+      </div>
+
+      <div className="teacher-section-header">
+        <h2>Guru dan staf</h2>
+      </div>
+
+      {isLoading && <p className="lead">Memuat data guru...</p>}
+      {error && <p className="lead">{error}</p>}
+      {!isLoading && !error && <div className="card-grid">{teachers.map((teacher) => <CardGuru key={teacher.id} teacher={teacher} />)}</div>}
+    </section>
+  )
 }
 
 export default Profil
