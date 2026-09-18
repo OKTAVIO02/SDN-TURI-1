@@ -101,6 +101,9 @@ function Home() {
   return (
     <div className="home-template">
       <header className="school-hero-shell">
+        <video className="school-hero-video" autoPlay muted loop playsInline aria-hidden="true">
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
         <div className="container school-hero">
           <div className="school-hero-copy hero-stagger">
             <span className="hero-badge">Selamat datang di</span>

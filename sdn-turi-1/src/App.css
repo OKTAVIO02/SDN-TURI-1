@@ -1103,3 +1103,417 @@ nav { gap: 8px; }
   .carousel-button { flex-basis: 36px; height: 36px; width: 36px; }
 }
 
+/* Cyan glass theme */
+:root {
+  --institution-navy: #062d58;
+  --institution-blue: #087aa8;
+  --institution-teal: #19d8e6;
+  --institution-gold: #75f5ff;
+  --institution-paper: #06182f;
+  --institution-line: rgba(123, 235, 255, .3);
+  --ink: #e9fbff;
+  --ink-soft: #a9d9e8;
+  --coral: #0b719c;
+  --coral-deep: #63edfa;
+  --sun: #a8f8ff;
+  --mint: rgba(28, 151, 190, .2);
+  --sky: rgba(17, 119, 170, .28);
+  --paper: #071d39;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(0, 230, 255, .2), transparent 28%),
+    radial-gradient(circle at 88% 58%, rgba(28, 100, 255, .2), transparent 32%),
+    linear-gradient(145deg, #031329 0%, #07315a 48%, #041b3c 100%);
+  color: var(--ink-soft);
+}
+
+body::before {
+  background-image: linear-gradient(rgba(131, 238, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(131, 238, 255, .05) 1px, transparent 1px);
+  background-size: 38px 38px;
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+}
+
+.site-header {
+  background: rgba(3, 24, 53, .78);
+  border-bottom: 1px solid rgba(106, 239, 255, .55);
+  box-shadow: 0 0 28px rgba(0, 224, 255, .18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.brand, .nav-link, .nav-link.active, .nav-link:hover { color: #dffcff; }
+.brand-name { text-shadow: 0 0 14px rgba(98, 239, 255, .6); }
+.nav-link.active, .nav-link:hover { background: rgba(57, 220, 239, .16); border-color: var(--institution-teal); color: #8ff8ff; }
+
+.school-hero-shell {
+  background:
+    linear-gradient(135deg, rgba(2, 26, 66, .72), rgba(0, 145, 190, .48) 52%, rgba(3, 22, 69, .86)),
+    radial-gradient(circle at 75% 30%, rgba(101, 246, 255, .35), transparent 25%);
+  border-bottom: 1px solid rgba(108, 240, 255, .8);
+}
+
+.school-hero-shell::before { opacity: .5; }
+.school-hero h1, .section-header h2, .home-section h2 { color: #f2feff; text-shadow: 0 0 22px rgba(58, 224, 255, .2); }
+.hero-badge { background: rgba(90, 237, 255, .14); border-color: rgba(128, 245, 255, .55); color: #9ffaff; }
+.school-hero-lead, .quiet-link { color: rgba(227, 252, 255, .86); }
+.school-hero .button, .intro-enter { background: #69eff8; box-shadow: 0 0 22px rgba(46, 235, 255, .45); color: #03264d; }
+.school-hero .button:hover, .intro-enter:hover { background: #c4fbff; box-shadow: 0 0 34px rgba(93, 240, 255, .7); }
+.school-hero-visual { background: rgba(43, 211, 238, .1); border-color: rgba(122, 243, 255, .55); box-shadow: 0 0 30px rgba(45, 224, 255, .2), inset 0 0 28px rgba(72, 205, 255, .12); }
+
+.welcome-card, .contact-panel, .news-card, .teacher-track .teacher-card, .admin-panel {
+  background: linear-gradient(135deg, rgba(73, 222, 242, .2), rgba(8, 43, 88, .58));
+  border: 1px solid rgba(124, 241, 255, .42);
+  box-shadow: 0 0 25px rgba(23, 205, 255, .12), inset 0 0 22px rgba(121, 239, 255, .06);
+  color: var(--ink);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.welcome-card { border-radius: 18px; }
+.welcome-copy p, .contact-copy p, .news-card p, .video-meta p { color: var(--ink-soft); }
+.welcome-avatar { box-shadow: 0 0 0 5px rgba(117, 245, 255, .22), 0 0 34px rgba(0, 229, 255, .5); }
+.section-header.center::after { background: #8df8ff; box-shadow: 0 0 14px #54edff; }
+.eyebrow, .section-kicker, .section-header .eyebrow { color: #72effa; text-shadow: 0 0 12px rgba(73, 233, 255, .5); }
+
+.news-section, .teacher-section { background: rgba(2, 30, 66, .42); }
+.news-card.mint, .news-card.yellow, .news-card.coral { background: linear-gradient(135deg, rgba(31, 177, 211, .28), rgba(5, 45, 93, .72)); border-top-color: #77f4ff; }
+.news-card h3, .news-card.coral h3, .news-card p, .news-card.coral p, .news-card .article-link { color: #e4fcff; }
+.news-meta span, .news-meta small, .article-card-body small { color: #8cf5ff; }
+
+.video-frame, .map-box { background: linear-gradient(135deg, rgba(19, 142, 185, .45), rgba(2, 33, 79, .82)); box-shadow: 0 0 32px rgba(23, 210, 255, .18); }
+.video-play { background: #78f2fb; box-shadow: 0 0 24px rgba(74, 235, 255, .6); color: #03264d; }
+.video-caption, .video-meta strong { color: #e5fdff; }
+.video-actions a, .ghost-button { background: rgba(78, 218, 239, .18); border: 1px solid rgba(116, 240, 255, .5); color: #dffcff; }
+
+.quick-access-section, .site-footer { background: linear-gradient(150deg, #03172f, #063b68 55%, #04142f); border-top-color: #70f5ff; }
+.quick-card { background: rgba(65, 211, 237, .12); border-color: rgba(107, 238, 255, .34); box-shadow: inset 0 0 18px rgba(85, 224, 255, .08); }
+.quick-card:hover { background: rgba(64, 224, 242, .34); box-shadow: 0 0 24px rgba(42, 227, 255, .42); }
+.quick-card strong, .footer-brand strong, .footer-column h4 { color: #e9fdff; }
+.footer-brand p, .footer-contact-list span, .footer-column li, .footer-bottom { color: rgba(210, 246, 255, .72); }
+
+.teacher-track .teacher-card:hover { border-color: #8af7ff; box-shadow: 0 0 34px rgba(40, 228, 255, .42); }
+.carousel-button { background: rgba(212, 252, 255, .9); box-shadow: 0 0 18px rgba(44, 224, 255, .4); color: #05325e; }
+.carousel-button:hover { background: #7af3fc; }
+.carousel-dots button { background: #4f89a6; }
+.carousel-dots button.is-active { background: #7cf4fc; }
+.teacher-more-link span { color: #7cf4fc; }
+.teacher-more-link { color: #c9f8ff; }
+
+.intro-screen { background: radial-gradient(circle at 50% 42%, rgba(43, 228, 255, .38), transparent 32%), linear-gradient(135deg, #020e25 0%, #064878 58%, #031a47 100%); }
+.intro-kicker { color: #80f4ff; }
+.intro-enter { border-color: rgba(144, 248, 255, .65); }
+
+@media (max-width: 700px) {
+  .navbar nav { background: rgba(3, 24, 53, .96); border-top-color: rgba(105, 239, 255, .4); }
+  .menu-toggle { border-color: rgba(105, 239, 255, .55); }
+  .menu-toggle span:not(.sr-only) { background: #9af8ff; }
+}
+
+/* Soft sky glass theme */
+:root {
+  --institution-navy: #253946;
+  --institution-blue: #b9dce3;
+  --institution-teal: #6babb7;
+  --institution-gold: #e9b45e;
+  --institution-paper: #f7fbfc;
+  --institution-line: rgba(112, 163, 174, .22);
+  --ink: #26343d;
+  --ink-soft: #697b84;
+  --coral: #e47d70;
+  --coral-deep: #c65c52;
+  --sun: #f5c76e;
+  --mint: rgba(221, 242, 244, .8);
+  --sky: #edf8fa;
+  --paper: #f7fbfc;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 17% 8%, rgba(255,255,255,.96) 0 12%, transparent 34%),
+    radial-gradient(ellipse at 87% 23%, rgba(255,255,255,.9) 0 10%, transparent 31%),
+    radial-gradient(ellipse at 44% 84%, rgba(194, 226, 233, .7) 0 9%, transparent 33%),
+    linear-gradient(180deg, #c8e0e7 0%, #eaf5f7 42%, #f9fcfc 100%);
+  color: var(--ink-soft);
+}
+
+body::before {
+  background: radial-gradient(ellipse at 28% 22%, rgba(255,255,255,.72), transparent 24%), radial-gradient(ellipse at 76% 67%, rgba(255,255,255,.82), transparent 25%);
+  filter: blur(18px);
+  opacity: .9;
+}
+
+.site-header {
+  background: rgba(255,255,255,.62);
+  border-bottom: 1px solid rgba(255,255,255,.8);
+  box-shadow: 0 10px 30px rgba(91, 143, 153, .1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.brand, .nav-link, .nav-link.active, .nav-link:hover { color: #344b55; }
+.brand-name { text-shadow: none; }
+.nav-link.active, .nav-link:hover { background: rgba(255,255,255,.58); border-color: #94cbd2; color: #4c9aa6; }
+
+.school-hero-shell {
+  background:
+    radial-gradient(ellipse at 74% 33%, rgba(255,255,255,.8) 0 10%, transparent 30%),
+    radial-gradient(ellipse at 12% 78%, rgba(255,255,255,.75) 0 11%, transparent 31%),
+    linear-gradient(180deg, rgba(172, 211, 220, .66), rgba(238, 248, 249, .86));
+  border-bottom: 1px solid rgba(255,255,255,.9);
+}
+
+.school-hero-video {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  opacity: .22;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
+.school-hero-shell::after {
+  background: linear-gradient(115deg, rgba(235, 249, 250, .72), rgba(255,255,255,.25) 48%, rgba(218, 240, 243, .62));
+  content: '';
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.school-hero { z-index: 1; }
+
+.school-hero-shell::before { background: none; opacity: 0; }
+.school-hero h1, .section-header h2, .home-section h2 { color: #263942; text-shadow: none; }
+.hero-badge { background: rgba(255,255,255,.52); border-color: rgba(255,255,255,.8); color: #527984; }
+.school-hero-lead, .quiet-link { color: #536c75; }
+.school-hero .button, .intro-enter { background: #e47d70; box-shadow: 0 9px 18px rgba(197, 104, 92, .2); color: #fff; }
+.school-hero .button:hover, .intro-enter:hover { background: #d9685d; box-shadow: 0 12px 22px rgba(197, 104, 92, .28); }
+.school-hero-visual { background: rgba(255,255,255,.3); border-color: rgba(255,255,255,.75); box-shadow: 0 18px 35px rgba(87, 142, 153, .13), inset 0 1px 0 #fff; }
+
+.welcome-card, .contact-panel, .news-card, .teacher-track .teacher-card, .admin-panel {
+  background: rgba(255,255,255,.62);
+  border: 1px solid rgba(255,255,255,.86);
+  box-shadow: 0 18px 36px rgba(82, 137, 149, .12), inset 0 1px 0 rgba(255,255,255,.9);
+  color: var(--ink);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.welcome-card { border-radius: 22px; }
+.welcome-copy p, .contact-copy p, .news-card p, .video-meta p { color: #667981; }
+.welcome-avatar { box-shadow: 0 0 0 5px rgba(255,255,255,.65), 0 15px 28px rgba(197, 91, 82, .22); }
+.section-header.center::after { background: #e47d70; box-shadow: none; }
+.eyebrow, .section-kicker, .section-header .eyebrow { color: #6da7b0; text-shadow: none; }
+
+.news-section, .teacher-section { background: rgba(255,255,255,.25); }
+.news-card.mint, .news-card.yellow, .news-card.coral { background: rgba(255,255,255,.7); border-top-color: #e8a3a0; }
+.news-card h3, .news-card.coral h3, .news-card p, .news-card.coral p, .news-card .article-link { color: #33464e; }
+.news-meta span, .news-meta small, .article-card-body small { color: #c76c64; }
+
+.video-frame, .map-box { background: linear-gradient(145deg, rgba(174, 217, 225, .82), rgba(229, 242, 244, .82)); box-shadow: 0 18px 32px rgba(83, 137, 148, .14); }
+.video-play { background: #fff; box-shadow: 0 8px 18px rgba(89, 135, 144, .18); color: #5e9da7; }
+.video-caption, .video-meta strong { color: #30454e; }
+.video-actions a, .ghost-button { background: rgba(255,255,255,.68); border: 1px solid rgba(118, 170, 179, .28); color: #4d7882; }
+
+.quick-access-section, .site-footer { background: linear-gradient(180deg, #a9d2da, #dbeef0); border-top-color: rgba(255,255,255,.8); }
+.quick-card { background: rgba(255,255,255,.38); border-color: rgba(255,255,255,.75); box-shadow: 0 10px 22px rgba(83, 137, 148, .1); color: #324d56; }
+.quick-card:hover { background: rgba(255,255,255,.75); box-shadow: 0 14px 25px rgba(83, 137, 148, .16); }
+.quick-card strong, .footer-brand strong, .footer-column h4 { color: #30464f; }
+.footer-brand p, .footer-contact-list span, .footer-column li, .footer-bottom { color: rgba(48, 70, 79, .72); }
+
+.teacher-track .teacher-card:hover { border-color: #e7a49d; box-shadow: 0 18px 34px rgba(196, 102, 92, .2); }
+.carousel-button { background: rgba(255,255,255,.82); box-shadow: 0 8px 18px rgba(82, 137, 149, .15); color: #527c85; }
+.carousel-button:hover { background: #fff; }
+.carousel-dots button { background: #b4d2d7; }
+.carousel-dots button.is-active { background: #e47d70; }
+.teacher-more-link { color: #547983; }
+.teacher-more-link span { color: #d4736a; }
+
+.intro-screen { background: radial-gradient(ellipse at 50% 42%, rgba(255,255,255,.85), transparent 30%), linear-gradient(180deg, #a9d3dc, #ecf7f8); }
+.intro-kicker { color: #648e96; }
+.intro-title { color: #304a54; }
+.intro-tagline { color: rgba(48, 74, 84, .7); }
+.intro-enter { border-color: rgba(255,255,255,.75); }
+
+@media (max-width: 700px) {
+  .navbar nav { background: rgba(246,252,253,.96); border-top-color: rgba(109, 169, 178, .3); }
+  .menu-toggle { border-color: rgba(109, 169, 178, .42); }
+  .menu-toggle span:not(.sr-only) { background: #5e929b; }
+}
+
+/* Logo accent finish */
+:root {
+  --logo-cyan: #01a7e9;
+  --logo-blue: #07549b;
+  --logo-red: #ce0000;
+  --logo-yellow: #f1ed03;
+  --logo-green: #03b808;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 10% 8%, rgba(255,255,255,.95) 0 12%, transparent 31%),
+    radial-gradient(ellipse at 88% 22%, rgba(255,255,255,.86) 0 10%, transparent 29%),
+    linear-gradient(145deg, #b9dce8 0%, #e9f5f7 43%, #d5edf2 100%);
+}
+
+.site-header { border-bottom: 2px solid var(--logo-cyan); }
+.brand-name { color: var(--logo-blue); }
+.nav-link.active, .nav-link:hover { border-color: var(--logo-cyan); color: var(--logo-blue); }
+.school-hero-shell { border-bottom: 4px solid var(--logo-cyan); }
+.school-hero-copy .hero-badge { border-left: 4px solid var(--logo-red); }
+.school-hero .button { background: var(--logo-blue); box-shadow: 0 8px 18px rgba(7,84,155,.22); }
+.school-hero .button:hover { background: var(--logo-cyan); }
+.school-hero .quiet-link span { color: var(--logo-red); }
+
+.school-hero-visual {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  overflow: visible;
+  padding: 0;
+}
+.school-emblem {
+  filter: drop-shadow(0 16px 22px rgba(7,84,155,.2)) drop-shadow(0 0 18px rgba(1,167,233,.2));
+}
+
+.section-header.center::after { background: linear-gradient(90deg, var(--logo-cyan), var(--logo-yellow), var(--logo-red)); height: 4px; width: 64px; }
+.eyebrow, .section-kicker, .section-header .eyebrow { color: var(--logo-blue); }
+.welcome-card { border-top: 3px solid var(--logo-cyan); }
+.welcome-avatar { background: linear-gradient(145deg, var(--logo-red), #ef7b38); }
+.news-card.mint { border-top-color: var(--logo-green); }
+.news-card.yellow { border-top-color: var(--logo-yellow); }
+.news-card.coral { border-top-color: var(--logo-red); }
+.news-meta small, .article-card-body small { color: var(--logo-red); }
+.video-play { border: 2px solid var(--logo-cyan); }
+.quick-access-section { background: linear-gradient(145deg, rgba(7,84,155,.8), rgba(1,167,233,.55)); border-top: 4px solid var(--logo-yellow); }
+.quick-card:hover { border-color: var(--logo-yellow); }
+.site-footer { background: linear-gradient(145deg, #07549b, #063568); border-top: 4px solid var(--logo-red); }
+.teacher-track .teacher-card:hover { border-color: var(--logo-red); }
+.carousel-dots button.is-active { background: var(--logo-red); }
+.teacher-more-link span { color: var(--logo-cyan); }
+.intro-screen { background: radial-gradient(circle at 50% 40%, rgba(1,167,233,.32), transparent 28%), linear-gradient(145deg, #07549b, #9edbe8 72%, #f1ed03); }
+.intro-kicker { color: var(--logo-yellow); }
+
+@media (max-width: 700px) {
+  .school-hero-visual { background: transparent; border: 0; box-shadow: none; }
+}
+
+/* Soft section transitions and atmospheric background */
+body {
+  background:
+    radial-gradient(ellipse at 6% 12%, rgba(255,255,255,.94) 0 10%, transparent 27%),
+    radial-gradient(ellipse at 94% 31%, rgba(180, 229, 238, .74) 0 9%, transparent 28%),
+    radial-gradient(ellipse at 88% 8%, rgba(206, 0, 0, .09) 0 4%, transparent 18%),
+    radial-gradient(ellipse at 7% 88%, rgba(228, 125, 112, .13) 0 5%, transparent 21%),
+    radial-gradient(ellipse at 18% 69%, rgba(213, 239, 227, .65) 0 8%, transparent 25%),
+    radial-gradient(ellipse at 84% 86%, rgba(255, 226, 194, .5) 0 8%, transparent 25%),
+    linear-gradient(155deg, #b9dce8 0%, #eaf6f7 34%, #dceff1 66%, #f7f2e9 100%);
+}
+
+.home-section,
+.teacher-section,
+.quick-access-section,
+.contact-section,
+.site-footer {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-section::before,
+.teacher-section::before,
+.quick-access-section::before,
+.contact-section::before {
+  background:
+    radial-gradient(ellipse at 8% 22%, rgba(255,255,255,.7) 0 5%, transparent 22%),
+    radial-gradient(ellipse at 92% 78%, rgba(255,255,255,.62) 0 5%, transparent 21%);
+  content: '';
+  filter: blur(16px);
+  inset: 0;
+  opacity: .8;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.welcome-section {
+  background: linear-gradient(115deg, rgba(188, 226, 233, .28), rgba(238, 248, 247, .48) 64%, rgba(228, 125, 112, .1));
+}
+
+.news-section {
+  background: linear-gradient(105deg, rgba(235, 247, 244, .18), rgba(218, 239, 243, .62) 48%, rgba(206, 0, 0, .07));
+}
+
+.video-section {
+  background: linear-gradient(115deg, rgba(225, 240, 248, .22), rgba(255, 246, 225, .38) 52%, rgba(228, 125, 112, .1));
+}
+
+.teacher-section {
+  background: linear-gradient(110deg, rgba(220, 242, 239, .3), rgba(184, 221, 231, .62) 50%, rgba(206, 0, 0, .07));
+}
+
+.contact-section {
+  background: linear-gradient(180deg, rgba(236, 248, 244, .2), rgba(255, 239, 218, .45) 55%, rgba(228, 243, 247, .28));
+}
+
+.quick-access-section {
+  background: linear-gradient(180deg, rgba(92, 166, 190, .76), rgba(117, 193, 199, .58) 54%, rgba(205, 231, 222, .72));
+}
+
+.site-footer {
+  background: linear-gradient(180deg, #8fc8d2, #c7e2dc 72%, #e3eee4);
+}
+
+.news-section::after,
+.teacher-section::after,
+.contact-section::after {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
+  content: '';
+  height: 1px;
+  left: 8%;
+  position: absolute;
+  right: 8%;
+  top: 0;
+}
+
+/* Small logo-color accents */
+.welcome-card,
+.contact-panel {
+  border-left: 3px solid rgba(7, 84, 155, .5);
+}
+
+.news-card.coral,
+.video-frame {
+  box-shadow: 0 18px 32px rgba(7, 84, 155, .12), inset 0 3px 0 rgba(206, 0, 0, .48);
+}
+
+.section-header.center::after {
+  background: linear-gradient(90deg, var(--logo-blue), var(--logo-cyan), var(--logo-red));
+}
+
+.eyebrow::before {
+  background: var(--logo-red);
+  border-radius: 50%;
+  content: '';
+  display: inline-block;
+  height: 6px;
+  margin: 0 8px 2px 0;
+  width: 6px;
+}
+
+.teacher-section .section-header h2,
+.video-section .section-header h2 {
+  text-decoration: underline;
+  text-decoration-color: rgba(1, 167, 233, .28);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+}
+
