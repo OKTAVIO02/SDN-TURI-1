@@ -127,7 +127,9 @@ function Home() {
           </div>
 
           <div className="welcome-card">
-            <div className="welcome-avatar">KS</div>
+            <div className="welcome-avatar">
+              <img src="/kepala-sekolah.jpg" alt="Kepala Sekolah SD Negeri Turi 1" />
+            </div>
             <div className="welcome-copy">
               <p>
                 Assalamualaikum Wr. Wb. Kami sangat bangga menyambut keluarga besar SD Negeri Turi 1.
