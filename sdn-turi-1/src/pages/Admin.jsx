@@ -18,6 +18,45 @@ const sections = [
 ]
 
 const dashboardSection = { key: 'dashboard', label: 'Ringkasan' }
+const adminNavigation = [
+  { ...dashboardSection, icon: '⌂' },
+  { key: 'profile', label: 'Profil Sekolah', icon: '◎' },
+  { key: 'teachers', label: 'Guru & Staf', icon: '♙' },
+  { key: 'extracurriculars', label: 'Ekstrakurikuler', icon: '✦' },
+  { key: 'achievements', label: 'Prestasi', icon: '✧' },
+  { key: 'facilities', label: 'Fasilitas', icon: '□' },
+  { key: 'articles', label: 'Artikel', icon: '▣' },
+  { key: 'gallery', label: 'Galeri Sekolah', icon: '▧' },
+  { key: 'contacts', label: 'Kontak Sekolah', icon: '☎' },
+  { key: 'messages', label: 'Pesan Masuk', icon: '✉' },
+]
+
+const fallbackArticles = [
+  {
+    id: 1,
+    category: 'Seni & Literasi',
+    article_date: '21 Sep 2026',
+    title: 'Siswa SD Negeri Turi 1 Panekan Raih Prestasi di Bidang Seni dan Literasi',
+    excerpt: 'Keberanian siswa tampil di depan umum menjadi bukti bahwa bakat dan semangat belajar tumbuh sejak dini di SD Negeri Turi 1 Panekan.',
+    tone: 'mint',
+  },
+  {
+    id: 2,
+    category: 'Olahraga',
+    article_date: '21 Sep 2026',
+    title: 'Semangat Bertanding, Siswa SD Negeri Turi 1 Panekan Ukir Prestasi di Bidang Olahraga',
+    excerpt: 'Konsentrasi, strategi, dan semangat juang siswa SD Negeri Turi 1 Panekan terlihat jelas dalam prestasi catur dan atletik tingkat kecamatan.',
+    tone: 'yellow',
+  },
+  {
+    id: 3,
+    category: 'Cerdas Cermat PAI',
+    article_date: '21 Sep 2026',
+    title: 'Tim Cerdas Cermat PAI SD Negeri Turi 1 Panekan Raih Juara 2',
+    excerpt: 'Kerja sama tim, semangat belajar, dan persiapan matang menjadi kunci keberhasilan tim cerdas cermat PAI SD Negeri Turi 1 Panekan.',
+    tone: 'coral',
+  },
+]
 
 const resourceFields = {
   teachers: [{ key: 'name', label: 'Nama lengkap' }, { key: 'role', label: 'Jabatan' }, { key: 'subject', label: 'Bidang atau mata pelajaran' }, { key: 'photo', label: 'Foto profil (JPG, PNG, WebP; maksimal 5 MB)', type: 'file' }],
@@ -52,6 +91,7 @@ async function readApiResponse(response, fallbackMessage) {
 function Admin() {
   const navigate = useNavigate()
   const [activeKey, setActiveKey] = useState('dashboard')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [data, setData] = useState({ teachers: [], extracurriculars: [], achievements: [], facilities: [], articles: [], gallery: [], contacts: [], messages: [], profile: null })
   const [isLoading, setIsLoading] = useState(true)
   const [message, setMessage] = useState('')
@@ -116,7 +156,16 @@ function Admin() {
     initializeData()
   }, [loadData])
 
-  return <section className="admin-shell" style={{ display: 'block', gridTemplateColumns: '1fr', width: '100%', minWidth: 0 }}><div className="admin-content" style={{ display: 'block', gridColumn: '1 / -1', width: '100%', minWidth: 0, maxWidth: '1440px', margin: '0 auto' }}><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Kelola website sekolah</h1><p>Perbarui informasi yang tampil di website publik.</p></div><button className="admin-logout" type="button" onClick={logout}>Keluar</button></header>{activeKey === 'dashboard' ? <DashboardOverview onSelect={setActiveKey} /> : <><button className="admin-back-button" type="button" onClick={() => setActiveKey('dashboard')}>&larr; Kembali ke ringkasan</button><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor key={data.profile?.id || 'profile'} profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}</>}{message && <p className="admin-status">{message}</p>}</div></section>
+  function selectSection(key) {
+    setActiveKey(key)
+    setIsSidebarOpen(false)
+  }
+
+  return <section className={`admin-shell${isSidebarOpen ? ' sidebar-open' : ''}`}><button className={`admin-menu-toggle${isSidebarOpen ? ' is-open' : ''}`} type="button" onClick={() => setIsSidebarOpen((isOpen) => !isOpen)} aria-label={isSidebarOpen ? 'Tutup navigasi admin' : 'Buka navigasi admin'} aria-expanded={isSidebarOpen}><span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" /></button><button className="admin-sidebar-backdrop" type="button" onClick={() => setIsSidebarOpen(false)} aria-label="Tutup navigasi admin" tabIndex={isSidebarOpen ? 0 : -1} /><AdminSidebar activeKey={activeKey} onSelect={selectSection} /><div className="admin-content"><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>{activeKey === 'dashboard' ? 'Kelola website sekolah' : activeSection.label}</h1><p>{activeKey === 'dashboard' ? 'Perbarui informasi yang tampil di website publik.' : `Kelola data ${activeSection.label.toLowerCase()} yang tampil di website publik.`}</p></div>{activeKey === 'dashboard' && <button className="admin-logout" type="button" onClick={logout} aria-label="Keluar dari panel admin" title="Keluar dari panel admin"><span aria-hidden="true">↪</span><span>Keluar</span></button>}</header>{activeKey === 'dashboard' ? <DashboardOverview onSelect={selectSection} /> : <><button className="admin-back-button" type="button" onClick={() => selectSection('dashboard')} aria-label="Kembali ke ringkasan" title="Kembali ke ringkasan"><span aria-hidden="true">&larr;</span></button><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor key={data.profile?.id || 'profile'} profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}</>}{message && <p className="admin-status">{message}</p>}</div></section>
+}
+
+function AdminSidebar({ activeKey, onSelect }) {
+  return <aside className="admin-sidebar" aria-label="Navigasi panel admin"><div className="admin-sidebar-brand"><img className="admin-brand-logo" src="/logo%20sdn.svg" alt="" /><div><strong>Admin Panel</strong><small>SD Negeri Turi 1</small></div></div><div className="admin-sidebar-heading">PENGELOLAAN</div><nav className="admin-sidebar-nav">{adminNavigation.map((item) => <button className={`admin-sidebar-item${activeKey === item.key ? ' is-active' : ''}`} key={item.key} type="button" onClick={() => onSelect(item.key)} aria-current={activeKey === item.key ? 'page' : undefined} title={item.label}><span className="admin-sidebar-icon" aria-hidden="true">{item.icon}</span><span>{item.label}</span>{activeKey === item.key && <span className="admin-sidebar-indicator" aria-hidden="true" />}</button>)}</nav></aside>
 }
 
 function DashboardOverview({ onSelect }) {
@@ -184,7 +233,9 @@ function ResourceManager({ resource, label, items, fields, endpoint, onSaved, se
     await onSaved()
   }
 
-  return <section className="admin-panel content-manager"><div className="panel-heading"><div><h2>{label}</h2><p>{resource === 'messages' ? 'Pesan yang dikirim melalui formulir kontak website.' : 'Tambah, ubah, atau hapus data yang tampil di website.'}</p></div>{resource !== 'messages' && <button className="admin-action" type="button" onClick={() => startEdit()}>+ Tambah data</button>}</div>{values && <EditorForm fields={fields} values={values} setValues={setValues} isSaving={isSaving} onSubmit={save} onCancel={() => setValues(null)} />}<div className="manager-list">{items.map((item) => <div className="manager-row" key={item.id}><div><strong>{fields.map((field) => item[field.key]).filter(Boolean).join(' - ')}</strong>{resource !== 'achievements' && <p>{item.message || item.description || item.subject || item.role}</p>}</div><div className="manager-actions">{resource !== 'messages' && <button type="button" onClick={() => startEdit(item)}>Edit</button>}<button type="button" onClick={() => remove(item.id)}>Hapus</button></div></div>)}</div></section>
+  const visibleItems = resource === 'articles' && (!items || items.length === 0) ? fallbackArticles : items
+
+  return <section className="admin-panel content-manager"><div className="panel-heading"><div><h2>{label}</h2><p>{resource === 'messages' ? 'Pesan yang dikirim melalui formulir kontak website.' : 'Tambah, ubah, atau hapus data yang tampil di website.'}</p></div>{resource !== 'messages' && <button className="admin-action" type="button" onClick={() => startEdit()}>+ Tambah data</button>}</div>{values && <EditorForm fields={fields} values={values} setValues={setValues} isSaving={isSaving} onSubmit={save} onCancel={() => setValues(null)} />}<div className="manager-list">{visibleItems.map((item) => <div className="manager-row" key={item.id}><div><strong>{fields.map((field) => item[field.key]).filter(Boolean).join(' - ')}</strong>{resource !== 'achievements' && <p>{item.message || item.description || item.subject || item.role || item.excerpt}</p>}</div><div className="manager-actions">{resource !== 'messages' && <button type="button" onClick={() => startEdit(item)}>Edit</button>}<button type="button" onClick={() => remove(item.id)}>Hapus</button></div></div>)}</div></section>
 }
 
 function EditorForm({ fields, values, setValues, isSaving, onSubmit, onCancel }) {

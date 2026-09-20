@@ -5,27 +5,32 @@ import { achievements, extracurriculars, facilities, schoolInfo, teachers as def
 
 const articleCards = [
   {
-    category: 'Berita',
-    title: 'Belajar dari lingkungan sekitar lewat Taman Belajar',
-    date: '12 Juni 2024',
+    category: 'Seni & Literasi',
+    title: 'Siswa SD Negeri Turi 1 Panekan Raih Prestasi di Bidang Seni dan Literasi',
+    date: '01 Sep 2026',
     tone: 'mint',
+    slug: 'siswa-sd-negeri-turi-1-panekan-raih-prestasi-di-bidang-seni-dan-literasi',
   },
   {
-    category: 'Kegiatan',
-    title: 'Menumbuhkan percaya diri lewat kegiatan seni',
-    date: '28 Mei 2024',
+    category: 'Olahraga',
+    title: 'Semangat Bertanding, Siswa SD Negeri Turi 1 Panekan Ukir Prestasi di Bidang Olahraga',
+    date: '05 Sep 2026',
     tone: 'yellow',
+    slug: 'semangat-bertanding-siswa-sd-negeri-turi-1-panekan-ukir-prestasi-di-bidang-olahraga',
   },
   {
-    category: 'Praktik baik',
-    title: 'Kebiasaan kecil untuk sekolah yang lebih peduli',
-    date: '08 Mei 2024',
+    category: 'Cerdas Cermat PAI',
+    title: 'Tim Cerdas Cermat PAI SD Negeri Turi 1 Panekan Raih Juara 2',
+    date: '09 Sep 2026',
     tone: 'coral',
+    slug: 'tim-cerdas-cermat-pai-sd-negeri-turi-1-panekan-raih-juara-2',
   },
 ]
 
 const canonicalAddress = 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352'
 const mediaBaseUrl = 'https://sdn1turi.my.id'
+const schoolProfileVideoUrl = 'https://www.youtube.com/watch?v=ofZdJ_d8wfA'
+const schoolProfileVideoEmbedUrl = 'https://www.youtube.com/embed/ofZdJ_d8wfA?rel=0'
 
 function getMediaSource(mediaUrl) {
   return mediaUrl?.startsWith('http') ? mediaUrl : `${mediaBaseUrl}${mediaUrl}`
@@ -194,14 +199,14 @@ function Home() {
 
           <div className="news-grid">
             {articleCards.map((item) => (
-              <article key={item.title} className={`news-card ${item.tone}`}>
+              <article key={item.slug} className={`news-card ${item.tone}`}>
                 <div className="news-illustration" aria-hidden="true" />
                 <div className="news-meta">
                   <span>{item.category}</span>
                   <small>{item.date}</small>
                 </div>
                 <h3>{item.title}</h3>
-                <Link className="text-link" to="/artikel">Selengkapnya <span>-&gt;</span></Link>
+                <Link className="text-link" to={`/artikel/${item.slug}`}>Selengkapnya <span>-&gt;</span></Link>
               </article>
             ))}
           </div>
@@ -209,23 +214,23 @@ function Home() {
 
         <section className="container home-section video-section scroll-reveal">
           <div className="section-header center">
-            <p className="eyebrow">Profile Sekolah</p>
-            <h2>Video Profil Sekolah</h2>
+            <p className="eyebrow">Dokumentasi Sekolah</p>
+            <h2>Sekilas Tentang SD Negeri Turi 1</h2>
+  const schoolProfileVideoUrl = 'https://www.youtube.com/watch?v=ofZdJ_d8wfA'
+  const schoolProfileVideoEmbedUrl = 'https://www.youtube.com/embed/ofZdJ_d8wfA?rel=0'
           </div>
 
           <div className="video-frame">
-            <a className="video-play" href="https://www.youtube.com/results?search_query=SD+Negeri+Turi+1" target="_blank" rel="noreferrer" aria-label="Cari video SD Negeri Turi 1 di YouTube">▶</a>
+              <iframe className="school-profile-video" src={schoolProfileVideoEmbedUrl} title="Video Profil SD Negeri Turi 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
             <div className="video-caption">Pemanfaatan Sarana dan Prasarana Sekolah</div>
           </div>
 
           <div className="video-meta">
             <div>
-              <strong>Profil Resmi SD Negeri Turi 1</strong>
-              <p>Video singkat tentang fasilitas, program, dan kegiatan siswa yang menjadi bagian dari proses belajar di sekolah kami.</p>
+              <p>Mengenal lebih dekat fasilitas, kegiatan, dan lingkungan SD Negeri Turi 1.</p>
             </div>
             <div className="video-actions">
-              <a href="https://www.youtube.com/results?search_query=SD+Negeri+Turi+1" target="_blank" rel="noreferrer">Channel Sekolah</a>
-              <a href="https://www.youtube.com/results?search_query=SD+Negeri+Turi+1" target="_blank" rel="noreferrer">Buka di YouTube</a>
+              <a href={schoolProfileVideoUrl} target="_blank" rel="noreferrer">Buka di YouTube</a>
             </div>
           </div>
         </section>

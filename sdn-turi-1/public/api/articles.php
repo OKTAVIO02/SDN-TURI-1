@@ -37,7 +37,40 @@ if ($method === 'GET') {
     } catch (Throwable $error) {
         $query = $pdo->query("SELECT id, category, article_date, title, excerpt, 'mint' AS tone FROM articles ORDER BY id DESC");
     }
-    echo json_encode($query->fetchAll());
+
+    $articles = $query->fetchAll();
+    if (empty($articles)) {
+        $fallbackArticles = [
+            [
+                'id' => 1,
+                'category' => 'Seni & Literasi',
+                'article_date' => '21 Sep 2026',
+                'title' => 'Siswa SD Negeri Turi 1 Panekan Raih Prestasi di Bidang Seni dan Literasi',
+                'excerpt' => 'Keberanian siswa tampil di depan umum menjadi bukti bahwa bakat dan semangat belajar tumbuh sejak dini di SD Negeri Turi 1 Panekan.',
+                'tone' => 'mint',
+            ],
+            [
+                'id' => 2,
+                'category' => 'Olahraga',
+                'article_date' => '21 Sep 2026',
+                'title' => 'Semangat Bertanding, Siswa SD Negeri Turi 1 Panekan Ukir Prestasi di Bidang Olahraga',
+                'excerpt' => 'Konsentrasi, strategi, dan semangat juang siswa SD Negeri Turi 1 Panekan terlihat jelas dalam prestasi catur dan atletik tingkat kecamatan.',
+                'tone' => 'yellow',
+            ],
+            [
+                'id' => 3,
+                'category' => 'Cerdas Cermat PAI',
+                'article_date' => '21 Sep 2026',
+                'title' => 'Tim Cerdas Cermat PAI SD Negeri Turi 1 Panekan Raih Juara 2',
+                'excerpt' => 'Kerja sama tim, semangat belajar, dan persiapan matang menjadi kunci keberhasilan tim cerdas cermat PAI SD Negeri Turi 1 Panekan.',
+                'tone' => 'coral',
+            ],
+        ];
+        echo json_encode($fallbackArticles);
+        exit;
+    }
+
+    echo json_encode($articles);
     exit;
 }
 

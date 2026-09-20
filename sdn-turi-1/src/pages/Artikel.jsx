@@ -1,29 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { articleStories } from '../data/schoolData'
 
-const fallbackArticles = [
-  {
-    category: 'Kabar sekolah',
-    date: '12 Juni 2024',
-    title: 'Belajar dari lingkungan sekitar lewat Taman Belajar',
-    excerpt: 'Ruang terbuka sekolah menjadi tempat anak mengamati, berdiskusi, dan menemukan cara baru untuk belajar bersama.',
-    tone: 'mint',
-  },
-  {
-    category: 'Kegiatan siswa',
-    date: '28 Mei 2024',
-    title: 'Menumbuhkan percaya diri lewat kegiatan seni',
-    excerpt: 'Seni tari dan musik membuka ruang bagi siswa untuk berani tampil, menghargai proses, dan merayakan keberagaman bakat.',
-    tone: 'yellow',
-  },
-  {
-    category: 'Praktik baik',
-    date: '08 Mei 2024',
-    title: 'Kebiasaan kecil untuk sekolah yang lebih peduli',
-    excerpt: 'Dari memilah sampah sampai merawat tanaman, kepedulian tumbuh lewat kebiasaan yang dilakukan bersama setiap hari.',
-    tone: 'coral',
-  },
+const fallbackArticles = articleStories
+
+const fallbackArticleImages = [
+  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
 ]
+
+const getArticleImage = (article, index) => {
+  const candidate = article?.coverImage || article?.cover_image || article?.image_url || article?.photo_url || article?.image || article?.thumbnail
+
+  if (candidate && typeof candidate === 'string' && candidate.trim()) {
+    return candidate
+  }
+
+  return fallbackArticleImages[index % fallbackArticleImages.length]
+}
 
 function Artikel() {
   const [articles, setArticles] = useState(fallbackArticles)
@@ -32,7 +27,14 @@ function Artikel() {
     fetch('https://sdn1turi.my.id/api/articles.php')
       .then((response) => response.ok ? response.json() : null)
       .then((nextArticles) => {
-        if (Array.isArray(nextArticles) && nextArticles.length > 0) setArticles(nextArticles)
+        if (Array.isArray(nextArticles) && nextArticles.length > 0) {
+          setArticles(nextArticles.map((article, index) => ({
+            ...article,
+            coverImage: getArticleImage(article, index),
+            tone: article.tone || ['mint', 'yellow', 'coral'][index % 3],
+            slug: article.slug || article.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '') || `artikel-${index + 1}`,
+          })))
+        }
       })
       .catch(() => {})
   }, [])
@@ -42,21 +44,38 @@ function Artikel() {
       <div className="page-heading article-heading">
         <p className="eyebrow">CERITA DARI SEKOLAH</p>
         <h1>Artikel</h1>
-        <p className="lead">Kabar, kegiatan, dan ide kecil yang membuat kehidupan belajar di SD Negeri Turi 1 terus bergerak.</p>
+        <p className="lead">Kabar, kegiatan, dan prestasi siswa yang membuat semangat belajar di SD Negeri Turi 1 semakin hidup.</p>
       </div>
-      <div className="article-intro">
-        <div><span className="section-kicker"><span>01</span><span>JURNAL SEKOLAH</span></span><h2>Yang kami pelajari<br /><em>di luar kelas.</em></h2></div>
-        <p>Setiap hari membawa cerita. Kami membagikan momen dan praktik baik dari warga sekolah agar keluarga dapat ikut dekat dengan proses tumbuh anak.</p>
+
+      <div className="article-breadcrumbs">
+        <Link to="/">Beranda</Link>
+        <span>/</span>
+        <span>Artikel</span>
+        <span>/</span>
+        <strong>Prestasi</strong>
       </div>
-      <div className="article-grid">
+
+      <div className="article-grid article-grid-news">
         {articles.map((article, index) => (
-          <article className={`article-card ${article.tone}`} key={article.title}>
-            <div className="article-card-top"><span>0{index + 1}</span><span>{article.category}</span></div>
-            <div className="article-card-body"><small>{article.article_date || article.date}</small><h3>{article.title}</h3><p>{article.excerpt}</p><Link className="article-link" to="/artikel">Baca cerita <span>-&gt;</span></Link></div>
+          <article className={`article-card article-news-card ${article.tone || ['mint', 'yellow', 'coral'][index % 3]}`} key={article.slug || article.title}>
+            <div className="article-card-image-wrap">
+              <img src={getArticleImage(article, index)} alt={article.title} className="article-card-image" />
+            </div>
+            <div className="article-card-content">
+              <div className="article-card-top">
+                <span>{article.category}</span>
+                <small>{article.article_date || article.date}</small>
+              </div>
+              <h3>{article.title}</h3>
+              <p>{article.excerpt}</p>
+              <div className="article-card-footer">
+                <span>0{index + 1}</span>
+                <Link className="article-link" to={`/artikel/${article.slug || article.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '')}`}>Baca artikel <span>-&gt;</span></Link>
+              </div>
+            </div>
           </article>
         ))}
       </div>
-      <div className="article-note"><span className="panel-number">CATATAN</span><p>Artikel baru akan hadir seiring kegiatan dan cerita baik dari sekolah.</p></div>
     </section>
   )
 }

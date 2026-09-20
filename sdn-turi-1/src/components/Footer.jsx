@@ -12,6 +12,8 @@ function Footer() {
             <span>{schoolInfo.address}</span>
             <span>{schoolInfo.phone}</span>
             <span>{schoolInfo.email}</span>
+            <a href={`https://instagram.com/${schoolInfo.instagram}`} target="_blank" rel="noreferrer">Instagram: @{schoolInfo.instagram}</a>
+            <a href={`https://facebook.com/${schoolInfo.facebook}`} target="_blank" rel="noreferrer">Facebook: {schoolInfo.facebook}</a>
           </div>
         </div>
 

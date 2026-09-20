@@ -7,6 +7,7 @@ import Profil from './pages/Profil'
 import Akademik from './pages/Akademik'
 import Fasilitas from './pages/Fasilitas'
 import Artikel from './pages/Artikel'
+import ArtikelDetail from './pages/ArtikelDetail'
 import Galeri from './pages/Galeri'
 import Admin from './pages/Admin'
 import AdminLogin from './pages/AdminLogin'
@@ -52,6 +53,7 @@ function AppRoutes() {
         <Route path="/akademik" element={<Akademik />} />
         <Route path="/fasilitas" element={<Fasilitas />} />
         <Route path="/artikel" element={<Artikel />} />
+        <Route path="/artikel/:slug" element={<ArtikelDetail />} />
         <Route path="/galeri" element={<Galeri />} />
         <Route path="/kontak" element={<Kontak />} />
         <Route path="/admin" element={<Admin />} />

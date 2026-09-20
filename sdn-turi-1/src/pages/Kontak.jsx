@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react'
 const contactsApiUrl = 'https://sdn1turi.my.id/api/contacts.php'
 const fallbackContacts = [
   { label: 'Alamat', value: 'Jl. Turi No.2, Area Persawahan, Turi, Panekan, Kabupaten Magetan, Jawa Timur 63352' },
-  { label: 'Telepon', value: '(0274) 123456', link_url: 'tel:(0274)123456' },
-  { label: 'Email', value: 'info@sdnturi1.sch.id', link_url: 'mailto:info@sdnturi1.sch.id' },
+  { label: 'Telepon', value: '+6285259805345', link_url: 'tel:+6285259805345' },
+  { label: 'Email', value: 'sdturi1panekan@gmail.com', link_url: 'mailto:sdturi1panekan@gmail.com' },
+  { label: 'Instagram', value: '@sdturi1panekan', link_url: 'https://instagram.com/sdturi1panekan' },
+  { label: 'Facebook', value: 'sdturi1panekan', link_url: 'https://facebook.com/sdturi1panekan' },
   { label: 'Jam pelayanan', value: 'Senin - Jumat, 07.00 - 13.30 WIB' },
 ]
 
