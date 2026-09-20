@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { schoolInfo } from '../data/schoolData'
 
-const apiBaseUrl = 'https://sdn1turi.my.id/api'
+const apiOrigin = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'https://sdn1turi.my.id'
+  : ''
+const apiBaseUrl = `${apiOrigin}/api`
 const sections = [
   { key: 'profile', label: 'Profil Sekolah', endpoint: 'school-profile.php' },
   { key: 'teachers', label: 'Guru & Staf', endpoint: 'teachers.php' },
@@ -14,6 +16,8 @@ const sections = [
   { key: 'contacts', label: 'Kontak Sekolah', endpoint: 'contacts.php' },
   { key: 'messages', label: 'Pesan Masuk', endpoint: 'messages.php' },
 ]
+
+const dashboardSection = { key: 'dashboard', label: 'Ringkasan' }
 
 const resourceFields = {
   teachers: [{ key: 'name', label: 'Nama lengkap' }, { key: 'role', label: 'Jabatan' }, { key: 'subject', label: 'Bidang atau mata pelajaran' }, { key: 'photo', label: 'Foto profil (JPG, PNG, WebP; maksimal 5 MB)', type: 'file' }],
@@ -47,11 +51,11 @@ async function readApiResponse(response, fallbackMessage) {
 
 function Admin() {
   const navigate = useNavigate()
-  const [activeKey, setActiveKey] = useState('profile')
+  const [activeKey, setActiveKey] = useState('dashboard')
   const [data, setData] = useState({ teachers: [], extracurriculars: [], achievements: [], facilities: [], articles: [], gallery: [], contacts: [], messages: [], profile: null })
   const [isLoading, setIsLoading] = useState(true)
   const [message, setMessage] = useState('')
-  const activeSection = sections.find((section) => section.key === activeKey)
+  const activeSection = activeKey === 'dashboard' ? dashboardSection : sections.find((section) => section.key === activeKey)
 
   async function logout() {
     await fetch(`${apiBaseUrl}/logout.php`, { credentials: 'include' })
@@ -71,14 +75,32 @@ function Admin() {
         navigate('/admin/login', { replace: true })
         return
       }
-      const responses = await Promise.all(sections.map((section) => fetch(`${apiBaseUrl}/${section.endpoint}`, { credentials: 'include' })))
-      if (responses.some((response) => response.status === 401)) {
+      const results = await Promise.all(sections.map(async (section) => {
+        try {
+          const response = await fetch(`${apiBaseUrl}/${section.endpoint}`, { credentials: 'include' })
+          if (response.status === 401) return { section, unauthorized: true }
+          if (!response.ok) return { section, error: `HTTP ${response.status}` }
+          return { section, value: await response.json() }
+        } catch {
+          return { section, error: 'koneksi gagal' }
+        }
+      }))
+
+      if (results.some((result) => result.unauthorized)) {
         navigate('/admin/login', { replace: true })
         return
       }
-      if (responses.some((response) => !response.ok)) throw new Error('Sebagian data belum dapat dimuat.')
-      const values = await Promise.all(responses.map((response) => response.json()))
-      setData({ profile: values[0], teachers: values[1], extracurriculars: values[2], achievements: values[3], facilities: values[4], articles: values[5], gallery: values[6], contacts: values[7], messages: values[8] })
+
+      const updates = results.reduce((result, item) => {
+        if (!item.error) result[item.section.key] = item.value
+        return result
+      }, {})
+      setData((currentData) => ({ ...currentData, ...updates }))
+
+      const failedSections = results.filter((result) => result.error)
+      setMessage(failedSections.length > 0
+        ? `Sebagian data belum dimuat: ${failedSections.map((result) => `${result.section.label} (${result.error})`).join(', ')}.`
+        : '')
     } catch (error) {
       setMessage(error.message)
     } finally {
@@ -94,7 +116,23 @@ function Admin() {
     initializeData()
   }, [loadData])
 
-  return <section className="admin-shell"><aside className="admin-sidebar"><div className="admin-brand"><img className="admin-brand-logo" src="/logo%20sdn.svg" alt="" /><div><strong>Admin Panel</strong><small>{schoolInfo.name}</small></div></div><nav className="admin-menu" aria-label="Menu admin"><button className={activeKey === 'profile' ? 'admin-menu-item active' : 'admin-menu-item'} type="button" onClick={() => setActiveKey('profile')}><span>◎</span>Profil Sekolah</button>{sections.slice(1).map((section, index) => <button className={activeKey === section.key ? 'admin-menu-item active' : 'admin-menu-item'} key={section.key} type="button" onClick={() => setActiveKey(section.key)}><span>{['♙', '✦', '✧', '□', '◫', '▣', '☎', '✉'][index]}</span>{section.label}</button>)}</nav><div className="admin-user"><div className="admin-avatar">SA</div><div><strong>Super Admin</strong><small>Pengelola konten</small></div><button className="admin-logout" type="button" onClick={logout}>Keluar</button></div></aside><div className="admin-content"><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Kelola website sekolah</h1><p>Perbarui informasi yang tampil di website publik.</p></div></header><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor key={data.profile?.id || 'profile'} profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}{message && <p className="admin-status">{message}</p>}</div></section>
+  return <section className="admin-shell" style={{ display: 'block', gridTemplateColumns: '1fr', width: '100%', minWidth: 0 }}><div className="admin-content" style={{ display: 'block', gridColumn: '1 / -1', width: '100%', minWidth: 0, maxWidth: '1440px', margin: '0 auto' }}><header className="admin-topbar"><div><p className="eyebrow">PUSAT PENGELOLAAN</p><h1>Kelola website sekolah</h1><p>Perbarui informasi yang tampil di website publik.</p></div><button className="admin-logout" type="button" onClick={logout}>Keluar</button></header>{activeKey === 'dashboard' ? <DashboardOverview onSelect={setActiveKey} /> : <><button className="admin-back-button" type="button" onClick={() => setActiveKey('dashboard')}>&larr; Kembali ke ringkasan</button><div className="admin-breadcrumb">Admin <span>/</span> {activeSection.label}</div>{isLoading ? <p className="admin-status">Memuat data dari database...</p> : activeKey === 'profile' ? <ProfileEditor key={data.profile?.id || 'profile'} profile={data.profile} onSaved={loadData} setMessage={setMessage} /> : <ResourceManager resource={activeKey} label={activeSection.label} items={data[activeKey]} fields={resourceFields[activeKey]} endpoint={activeSection.endpoint} onSaved={loadData} setMessage={setMessage} />}</>}{message && <p className="admin-status">{message}</p>}</div></section>
+}
+
+function DashboardOverview({ onSelect }) {
+  const cards = [
+    { key: 'profile', icon: '◎', title: 'Profil, Kontak & Jam Layanan', text: 'Sesuaikan visi-misi, sambutan, alamat, email, dan nomor telepon sekolah.' },
+    { key: 'teachers', icon: '♙', title: 'Guru & Staf', text: 'Tambah, edit nama, jabatan, bidang, dan foto guru sekolah.' },
+    { key: 'extracurriculars', icon: '✦', title: 'Ekstrakurikuler', text: 'Kelola kegiatan dan program pengembangan siswa.' },
+    { key: 'achievements', icon: '✧', title: 'Prestasi', text: 'Catat dan perbarui prestasi sekolah dan peserta didik.' },
+    { key: 'facilities', icon: '□', title: 'Fasilitas', text: 'Perbarui daftar fasilitas dan kondisinya.' },
+    { key: 'articles', icon: '▣', title: 'Artikel', text: 'Publikasikan berita dan artikel kegiatan sekolah.' },
+    { key: 'gallery', icon: '▧', title: 'Galeri Sekolah', text: 'Kelola foto dan video dokumentasi sekolah.' },
+    { key: 'contacts', icon: '☎', title: 'Kontak Sekolah', text: 'Atur alamat, telepon, email, dan tautan kontak.' },
+    { key: 'messages', icon: '✉', title: 'Pesan Masuk', text: 'Lihat pesan yang dikirim melalui formulir kontak.' },
+  ]
+
+  return <div className="admin-dashboard"><div className="admin-overview-grid">{cards.map((card) => <button className="admin-overview-card" key={card.key} type="button" onClick={() => onSelect(card.key)}><span className="admin-overview-icon">{card.icon}</span><h3>{card.title}</h3><p>{card.text}</p><strong>Buka Kelola <span>-&gt;</span></strong></button>)}</div></div>
 }
 
 function ResourceManager({ resource, label, items, fields, endpoint, onSaved, setMessage }) {

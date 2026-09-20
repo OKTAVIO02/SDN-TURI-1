@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 public/api/config.php
+database/admin-reset*.sql
 public/uploads/teachers/*
 !public/uploads/teachers/.gitkeep
 *.zip

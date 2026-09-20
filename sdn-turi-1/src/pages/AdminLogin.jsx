@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const loginUrl = 'https://sdn1turi.my.id/api/login.php'
+const apiOrigin = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'https://sdn1turi.my.id'
+  : ''
+const loginUrl = `${apiOrigin}/api/login.php`
 
 function AdminLogin() {
   const navigate = useNavigate()
@@ -34,7 +37,7 @@ function AdminLogin() {
       if (!response.ok) throw new Error(result.error || 'Login gagal.')
       navigate('/admin', { replace: true })
     } catch (requestError) {
-      setError(requestError.message)
+      setError(requestError instanceof TypeError ? 'Koneksi ke server gagal. Periksa koneksi internet dan alamat website.' : requestError.message)
     } finally {
       setIsSubmitting(false)
     }

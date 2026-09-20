@@ -40,6 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 function requireAdmin(): void
 {
+    global $requestOrigin, $allowedOrigins, $isLocalOrigin;
+
+    if (in_array($_SERVER['REQUEST_METHOD'], ['POST', 'DELETE'], true) && $requestOrigin !== '' && !$isLocalOrigin && !in_array($requestOrigin, $allowedOrigins, true)) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Origin request tidak diizinkan']);
+        exit;
+    }
+
     if (empty($_SESSION['admin_id'])) {
         http_response_code(401);
         echo json_encode(['error' => 'Autentikasi diperlukan']);

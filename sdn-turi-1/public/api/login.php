@@ -14,6 +14,19 @@ try {
 $payload = json_decode(file_get_contents('php://input'), true) ?? [];
 $username = trim($payload['username'] ?? '');
 $password = $payload['password'] ?? '';
+$now = time();
+$attemptWindow = 10 * 60;
+$attempts = $_SESSION['login_attempts'] ?? ['started_at' => $now, 'count' => 0];
+
+if (($now - (int) ($attempts['started_at'] ?? $now)) > $attemptWindow) {
+    $attempts = ['started_at' => $now, 'count' => 0];
+}
+
+if ((int) ($attempts['count'] ?? 0) >= 5) {
+    http_response_code(429);
+    echo json_encode(['error' => 'Terlalu banyak percobaan login. Coba lagi dalam 10 menit.']);
+    exit;
+}
 
 if ($username === '' || $password === '') {
     http_response_code(422);
@@ -32,11 +45,16 @@ try {
 }
 
 if (!$admin || !password_verify($password, $admin['password_hash'])) {
+    $_SESSION['login_attempts'] = [
+        'started_at' => (int) $attempts['started_at'],
+        'count' => (int) $attempts['count'] + 1,
+    ];
     http_response_code(401);
     echo json_encode(['error' => 'Username atau password salah']);
     exit;
 }
 
+unset($_SESSION['login_attempts']);
 session_regenerate_id(true);
 $_SESSION['admin_id'] = (int) $admin['id'];
 $_SESSION['admin_username'] = $admin['username'];

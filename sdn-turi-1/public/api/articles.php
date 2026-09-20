@@ -7,8 +7,36 @@ require_once __DIR__ . '/auth.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Keep older deployments compatible with the current article fields.
+try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS articles (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        category VARCHAR(100) NOT NULL,
+        article_date VARCHAR(60) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        excerpt TEXT NOT NULL,
+        tone VARCHAR(20) NOT NULL DEFAULT 'mint',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )");
+
+    $toneColumn = $pdo->query("SHOW COLUMNS FROM articles LIKE 'tone'")->fetch();
+    if (!$toneColumn) {
+        $pdo->exec("ALTER TABLE articles ADD COLUMN tone VARCHAR(20) NOT NULL DEFAULT 'mint'");
+    }
+} catch (Throwable $error) {
+    if ($method === 'GET') {
+        echo json_encode([]);
+        exit;
+    }
+}
+
 if ($method === 'GET') {
-    $query = $pdo->query('SELECT id, category, article_date, title, excerpt, tone FROM articles ORDER BY id DESC');
+    try {
+        $query = $pdo->query('SELECT id, category, article_date, title, excerpt, tone FROM articles ORDER BY id DESC');
+    } catch (Throwable $error) {
+        $query = $pdo->query("SELECT id, category, article_date, title, excerpt, 'mint' AS tone FROM articles ORDER BY id DESC");
+    }
     echo json_encode($query->fetchAll());
     exit;
 }

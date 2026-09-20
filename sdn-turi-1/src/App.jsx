@@ -13,6 +13,7 @@ import AdminLogin from './pages/AdminLogin'
 import Landing from './pages/Landing'
 import Kontak from './pages/Kontak'
 import './App.css'
+import './admin-responsive.css'
 
 function App() {
   const [showIntro, setShowIntro] = useState(true)

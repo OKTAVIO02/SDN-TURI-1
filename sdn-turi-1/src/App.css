@@ -328,6 +328,203 @@ li { margin: 12px 0; }
   .profile-layout { grid-template-columns: 1fr; }
   .mission-grid { grid-template-columns: 1fr; }
 }
+
+/* Final mobile layout safeguards */
+img, video, iframe { max-width: 100%; }
+button, input, textarea, select { max-width: 100%; }
+
+@media (max-width: 700px) {
+  .container { width: calc(100% - 28px); }
+  .navbar { min-height: 70px; padding: 10px 0; }
+  .brand { min-width: 0; padding-right: 48px; }
+  .brand-name { font-size: 15px; line-height: 1.2; }
+  .navbar .menu-toggle { top: 13px; right: 0; }
+  .navbar nav { margin: 0; padding: 8px 0 4px; }
+  .navbar .nav-link { padding: 12px 4px; }
+
+  .page { padding: 48px 0; }
+  .page-heading { margin-bottom: 34px; padding-left: 15px; }
+  .page-heading h1, h1 { font-size: clamp(36px, 12vw, 52px); line-height: 1.02; overflow-wrap: anywhere; }
+  h2 { font-size: 27px; line-height: 1.15; }
+  .lead, .school-hero-lead { font-size: 16px; line-height: 1.65; }
+  .button { justify-content: center; max-width: 100%; width: 100%; }
+  .hero-actions { align-items: stretch; flex-direction: column; gap: 15px; }
+  .hero-actions .quiet-link { text-align: center; }
+  .home-page { grid-template-columns: 1fr; gap: 28px; min-height: auto; padding: 52px 0 58px; }
+  .home-page::before { height: 280px; right: -145px; width: 280px; }
+  .hero-copy { padding-left: 0; }
+  .hero-copy h1, .hero-copy .lead { max-width: none; }
+  .hero-facts { flex-wrap: wrap; gap: 18px; justify-content: center; }
+  .hero-art { height: 360px; margin: 0 auto -45px; transform: scale(.76); transform-origin: top center; width: 132%; }
+  .welcome-note { max-width: 205px; right: 0; width: 205px; }
+
+  .two-column, .profile-layout, .facility-grid, .gallery-grid, .card-grid { grid-template-columns: 1fr; gap: 24px; }
+  .profile-hero-panel { align-items: flex-start; flex-direction: column; padding: 24px 18px; }
+  .profile-mini-stat { min-width: 0; width: 100%; }
+  .vision-box, .mission-box, .fact-panel-card, .info-card { padding: 20px 16px; }
+  .mission-grid { grid-template-columns: 1fr; }
+  .highlight { flex-direction: column; margin-top: 36px; padding: 24px 20px; }
+  .card-grid .teacher-card { min-height: 350px; }
+
+  .school-hero { gap: 28px; grid-template-columns: 1fr; min-height: auto; padding: 52px 0; }
+  .school-hero h1 { font-size: clamp(42px, 12vw, 58px); overflow-wrap: anywhere; }
+  .school-hero-visual { height: 330px; margin: 0; min-height: 0; width: 100%; }
+  .school-emblem { min-width: 0; width: min(78vw, 260px); }
+  .metric-row, .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .metric-card { min-height: 105px; padding: 16px 12px; }
+  .metric-card strong { font-size: 30px; }
+  .ribbon-grid, .about-grid, .program-grid, .snapshot-grid, .news-grid, .article-grid, .article-preview-grid, .footer-inner { grid-template-columns: 1fr; }
+  .home-section { padding: 64px 0; }
+  .section-heading, .section-header { margin-bottom: 28px; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .section-header h2, .home-section h2 { font-size: clamp(32px, 10vw, 46px); }
+  .about-grid { gap: 40px; }
+  .article-intro, .contact-panel { grid-template-columns: 1fr; gap: 24px; }
+  .article-card { min-height: 350px; }
+  .home-cta { gap: 28px; grid-template-columns: 1fr; margin-bottom: 55px; padding: 34px 22px; }
+  .welcome-card { grid-template-columns: 1fr; padding: 26px 18px; row-gap: 24px; text-align: center; }
+  .welcome-card .welcome-avatar { height: min(62vw, 210px); margin: 0 auto; min-width: 0; width: min(62vw, 210px); }
+  .welcome-copy { align-items: center; }
+  .news-section { padding-left: 14px; padding-right: 14px; }
+  .video-frame { height: 260px; }
+  .video-caption { bottom: 16px; font-size: 18px; left: 18px; }
+  .video-meta { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .contact-panel { padding: 22px 18px; }
+  .map-box { height: 240px; }
+  .footer-inner { gap: 24px; padding-bottom: 24px; }
+  .footer-bottom { flex-direction: column; padding-bottom: 22px; }
+}
+
+@media (max-width: 600px) {
+  .admin-content { padding: 30px 14px; }
+  .admin-topbar { align-items: flex-start; flex-direction: column; }
+  .admin-topbar h1 { font-size: 36px; }
+  .admin-stats, .admin-grid, .school-detail-grid, .admin-editor-form, .profile-editor { grid-template-columns: 1fr; }
+  .admin-panel { padding: 18px 14px; }
+  .panel-heading { flex-direction: column; }
+  .panel-heading .admin-action, .editor-actions .admin-action { width: 100%; }
+  .admin-action { white-space: normal; width: 100%; }
+  .manager-row { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .manager-actions { width: 100%; }
+  .manager-actions button { flex: 1; }
+  .admin-facility-row { align-items: flex-start; flex-direction: column; }
+  .admin-badge { white-space: normal; }
+  .admin-login-page { padding: 16px; }
+  .admin-login-card { padding: 28px 20px; }
+}
+
+/* Final admin mobile layout override. */
+@media (max-width: 900px) {
+  .admin-shell { display: block; min-width: 0; width: 100%; }
+  .admin-sidebar { min-width: 0; padding: 18px 14px; width: 100%; }
+  .admin-brand { padding-bottom: 18px; }
+  .admin-menu { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; overflow: visible; width: 100%; }
+  .admin-menu-item { align-items: center; min-height: 48px; min-width: 0; padding: 10px 8px; transform: none; white-space: normal; }
+  .admin-menu-item strong { font-size: 12px; min-width: 0; overflow-wrap: anywhere; }
+  .admin-user { display: none; }
+  .admin-content { max-width: none; min-width: 0; padding: 30px 14px 42px; width: 100%; }
+  .admin-topbar h1 { font-size: clamp(34px, 10vw, 48px); overflow-wrap: anywhere; }
+  .admin-stats, .admin-grid, .school-detail-grid, .admin-editor-form, .profile-editor { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .admin-menu { grid-template-columns: 1fr; }
+  .admin-menu-item { min-height: 44px; }
+}
+
+/* Final admin mobile layout override. Keep this after all theme rules. */
+@media (max-width: 900px) {
+  .admin-shell {
+    display: block;
+    min-width: 0;
+    width: 100%;
+  }
+  .admin-sidebar {
+    min-width: 0;
+    padding: 18px 14px;
+    width: 100%;
+  }
+  .admin-brand { padding-bottom: 18px; }
+  .admin-menu {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 18px;
+    overflow: visible;
+    width: 100%;
+  }
+  .admin-menu-item {
+    align-items: center;
+    min-height: 48px;
+    min-width: 0;
+    padding: 10px 8px;
+    transform: none;
+    white-space: normal;
+  }
+  .admin-menu-item strong {
+    font-size: 12px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .admin-user { display: none; }
+  .admin-content {
+    max-width: none;
+    min-width: 0;
+    padding: 30px 14px 42px;
+    width: 100%;
+  }
+  .admin-topbar h1 {
+    font-size: clamp(34px, 10vw, 48px);
+    overflow-wrap: anywhere;
+  }
+  .admin-stats, .admin-grid, .school-detail-grid, .admin-editor-form, .profile-editor { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .admin-menu { grid-template-columns: 1fr; }
+  .admin-menu-item { min-height: 44px; }
+}
+
+/* Admin page selectors */
+.admin-menu-item {
+  align-items: center;
+  display: flex;
+  min-width: 0;
+}
+.admin-menu-item input[type='checkbox'] {
+  accent-color: var(--institution-gold);
+  flex: 0 0 auto;
+  height: 16px;
+  margin: 0 2px 0 0;
+  pointer-events: none;
+  width: 16px;
+}
+.admin-menu-item strong {
+  font-size: inherit;
+  font-weight: 700;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .admin-sidebar { min-width: 0; }
+  .admin-menu {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .admin-menu-item {
+    justify-content: flex-start;
+    min-height: 48px;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-menu { grid-template-columns: 1fr; }
+  .admin-menu-item { min-height: 46px; }
+}
 @media (max-width: 700px) {
   .profile-hero-panel { flex-direction: column; align-items: flex-start; }
   .profile-mini-stat { width: 100%; }
@@ -1548,5 +1745,90 @@ body {
 .contact-form .button { border: 0; cursor: pointer; margin-top: 2px; }
 .contact-form-status { color: var(--institution-teal); font-family: 'Trebuchet MS', sans-serif; font-size: 13px; margin: 16px 0 0; }
 .contact-form-error { color: #c94d4d; font-family: 'Trebuchet MS', sans-serif; font-size: 13px; margin: 16px 0 0; }
+
+/* Final admin mobile layout override. */
+@media (max-width: 900px) {
+  .admin-shell { display: block; min-width: 0; width: 100%; }
+  .admin-sidebar { min-width: 0; padding: 18px 14px; width: 100%; }
+  .admin-brand { padding-bottom: 18px; }
+  .admin-menu { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 18px; overflow: visible; width: 100%; }
+  .admin-menu-item { align-items: center; min-height: 48px; min-width: 0; padding: 10px 8px; transform: none; white-space: normal; }
+  .admin-menu-item strong { font-size: 12px; min-width: 0; overflow-wrap: anywhere; }
+  .admin-user { display: none; }
+  .admin-content { max-width: none; min-width: 0; padding: 30px 14px 42px; width: 100%; }
+  .admin-topbar h1 { font-size: clamp(34px, 10vw, 48px); overflow-wrap: anywhere; }
+  .admin-stats, .admin-grid, .school-detail-grid, .admin-editor-form, .profile-editor { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .admin-menu { grid-template-columns: 1fr; }
+  .admin-menu-item { min-height: 44px; }
+}
 @media (max-width: 760px) { .contact-layout { grid-template-columns: 1fr; } .contact-page-heading { text-align: left; } }
+
+.teacher-viewport { touch-action: pan-y; }
+
+/* Keep the final responsive rules after all visual theme overrides. */
+@media (max-width: 700px) {
+  img, video, iframe { max-width: 100%; }
+  .container { width: calc(100% - 28px); }
+  .navbar { min-height: 70px; padding: 10px 0; }
+  .brand { min-width: 0; padding-right: 48px; }
+  .brand-name { font-size: 15px; line-height: 1.2; }
+  .navbar .menu-toggle { right: 0; top: 13px; }
+  .navbar nav { margin: 0; padding: 8px 0 4px; }
+  .navbar .nav-link { padding: 12px 4px; }
+  .page { padding: 48px 0; }
+  .page-heading { margin-bottom: 34px; padding-left: 15px; }
+  .page-heading h1, h1 { font-size: clamp(36px, 12vw, 52px); line-height: 1.02; overflow-wrap: anywhere; }
+  h2 { font-size: 27px; line-height: 1.15; }
+  .button { justify-content: center; width: 100%; }
+  .home-page, .school-hero { grid-template-columns: 1fr; min-height: auto; }
+  .home-page { gap: 28px; padding: 52px 0 58px; }
+  .hero-copy { padding-left: 0; }
+  .hero-facts { flex-wrap: wrap; gap: 18px; justify-content: center; }
+  .hero-art { height: 360px; margin: 0 auto -45px; transform: scale(.76); transform-origin: top center; width: 132%; }
+  .welcome-note { max-width: 205px; right: 0; width: 205px; }
+  .two-column, .profile-layout, .facility-grid, .gallery-grid, .card-grid, .ribbon-grid, .about-grid, .program-grid, .snapshot-grid, .news-grid, .article-grid, .article-preview-grid, .footer-inner { grid-template-columns: 1fr; }
+  .profile-hero-panel { align-items: flex-start; flex-direction: column; padding: 24px 18px; }
+  .profile-mini-stat { min-width: 0; width: 100%; }
+  .mission-grid { grid-template-columns: 1fr; }
+  .highlight { flex-direction: column; margin-top: 36px; padding: 24px 20px; }
+  .school-hero { gap: 28px; padding: 52px 0; }
+  .school-hero h1 { font-size: clamp(42px, 12vw, 58px); overflow-wrap: anywhere; }
+  .school-hero-visual { height: 330px; margin: 0; min-height: 0; width: 100%; }
+  .school-emblem { min-width: 0; width: min(78vw, 260px); }
+  .metric-row, .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .metric-card { min-height: 105px; padding: 16px 12px; }
+  .home-section { padding: 64px 0; }
+  .about-grid { gap: 40px; }
+  .article-intro, .contact-panel { grid-template-columns: 1fr; gap: 24px; }
+  .home-cta { gap: 28px; grid-template-columns: 1fr; margin-bottom: 55px; padding: 34px 22px; }
+  .welcome-card { grid-template-columns: 1fr; padding: 26px 18px; row-gap: 24px; text-align: center; }
+  .welcome-card .welcome-avatar { height: min(62vw, 210px); margin: 0 auto; min-width: 0; width: min(62vw, 210px); }
+  .welcome-copy { align-items: center; }
+  .news-section { padding-left: 14px; padding-right: 14px; }
+  .video-frame { height: 260px; }
+  .video-meta { align-items: flex-start; flex-direction: column; gap: 16px; }
+  .contact-panel { padding: 22px 18px; }
+  .map-box { height: 240px; }
+  .footer-inner { gap: 24px; padding-bottom: 24px; }
+  .footer-bottom { flex-direction: column; padding-bottom: 22px; }
+}
+
+@media (max-width: 600px) {
+  .admin-content { padding: 30px 14px; }
+  .admin-topbar { align-items: flex-start; flex-direction: column; }
+  .admin-topbar h1 { font-size: 36px; }
+  .admin-stats, .admin-grid, .school-detail-grid, .admin-editor-form, .profile-editor { grid-template-columns: 1fr; }
+  .admin-panel { padding: 18px 14px; }
+  .panel-heading { flex-direction: column; }
+  .panel-heading .admin-action, .editor-actions .admin-action, .admin-action { width: 100%; }
+  .manager-row, .admin-facility-row { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .manager-actions { width: 100%; }
+  .manager-actions button { flex: 1; }
+  .admin-badge { white-space: normal; }
+  .admin-login-page { padding: 16px; }
+  .admin-login-card { padding: 28px 20px; }
+}
 

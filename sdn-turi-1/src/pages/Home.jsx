@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CardGuru from '../components/CardGuru'
 import { achievements, extracurriculars, facilities, schoolInfo, teachers as defaultTeachers } from '../data/schoolData'
@@ -47,6 +47,31 @@ function Home() {
   const [contacts, setContacts] = useState([])
   const [teacherSlide, setTeacherSlide] = useState(0)
   const [, setHomeData] = useState({ achievements, extracurriculars, facilities })
+  const teacherSwipeStart = useRef(null)
+
+  function handleTeacherPointerDown(event) {
+    teacherSwipeStart.current = { x: event.clientX, y: event.clientY }
+    event.currentTarget.setPointerCapture?.(event.pointerId)
+  }
+
+  function handleTeacherPointerUp(event) {
+    const start = teacherSwipeStart.current
+    teacherSwipeStart.current = null
+    if (!start) return
+
+    const horizontalDistance = event.clientX - start.x
+    const verticalDistance = event.clientY - start.y
+    if (Math.abs(horizontalDistance) < 45 || Math.abs(horizontalDistance) <= Math.abs(verticalDistance)) return
+
+    setTeacherSlide((currentSlide) => {
+      const lastSlide = Math.max(teachers.length - 3, 0)
+      return horizontalDistance < 0 ? Math.min(currentSlide + 1, lastSlide) : Math.max(currentSlide - 1, 0)
+    })
+  }
+
+  function handleTeacherPointerCancel() {
+    teacherSwipeStart.current = null
+  }
 
   useEffect(() => {
     const revealElements = document.querySelectorAll('.scroll-reveal')
@@ -231,7 +256,7 @@ function Home() {
 
             <div className="teacher-carousel">
               <button className="carousel-button carousel-prev" type="button" onClick={() => setTeacherSlide((currentSlide) => Math.max(currentSlide - 1, 0))} aria-label="Guru sebelumnya">&larr;</button>
-              <div className="teacher-viewport">
+              <div className="teacher-viewport" onPointerDown={handleTeacherPointerDown} onPointerUp={handleTeacherPointerUp} onPointerCancel={handleTeacherPointerCancel}>
                 <div className="teacher-track" style={{ '--teacher-slide': teacherSlide }}>
                   {teachers.map((teacher, index) => <CardGuru key={teacher.id || `${teacher.name}-${index}`} teacher={teacher} isActive={index === teacherSlide + 1} />)}
                 </div>
